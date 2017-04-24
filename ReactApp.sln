@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{932080D0-72E4-45D1-A917-A7A53BBA6CFD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CC53D911-2123-4FC9-B4F9-751C5934F7FB}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ReactApp", "src\ReactApp\ReactApp.xproj", "{DAFECFD4-602A-4A57-AAE5-CEF6501E9D96}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DAFECFD4-602A-4A57-AAE5-CEF6501E9D96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAFECFD4-602A-4A57-AAE5-CEF6501E9D96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAFECFD4-602A-4A57-AAE5-CEF6501E9D96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAFECFD4-602A-4A57-AAE5-CEF6501E9D96}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DAFECFD4-602A-4A57-AAE5-CEF6501E9D96} = {932080D0-72E4-45D1-A917-A7A53BBA6CFD}
+	EndGlobalSection
+EndGlobal
