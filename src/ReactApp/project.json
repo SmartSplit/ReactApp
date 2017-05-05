@@ -23,7 +23,10 @@
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
     "React.Core": "3.0.1",
-    "React.AspNet": "3.0.1"
+    "React.AspNet": "3.0.1",
+    "Newtonsoft.Json": "10.0.2",
+    "Models": "1.0.0-*",
+    "Services": "1.0.0-*"
   },
 
   "tools": {
