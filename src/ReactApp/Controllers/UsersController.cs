@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using Services;
+using Newtonsoft.Json;
+using Models;
+using Newtonsoft.Json.Linq;
 
 namespace ReactApp.Controllers
 {
@@ -12,10 +15,13 @@ namespace ReactApp.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            Consumer consumer = Consumer.Create("https://api.smartsplit.eu/", 2, "jJZVb8GJVzroZgVpLtSwlHrwVUPEu1fqe3xCpHPk").Result;
+            Consumer consumer = Consumer.Create().Result;
 
-            var users = await consumer.MakeCall("users");
+            var usersResponseString = await consumer.MakeCall("users");
 
+            var usersResponseObject = JsonConvert.DeserializeObject<ApiResponse>(usersResponseString);
+
+            var users = JsonConvert.DeserializeObject<List<User>>((usersResponseObject.data.ToString()));
 
             return View(users);
         }
