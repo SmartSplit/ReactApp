@@ -2,12 +2,15 @@
     render: function() {
         return (
           <div className="commentBox">
-            Hello, world! I am a CommentBox.
+            Hello, world! I am a CommentBox. {this.props[0].users[0].name}
           </div>
       );
     }
 });
-ReactDOM.render(
-  <CommentBox />,
-  document.getElementById('content')
-);
+
+function DisplayUsers(...UserDTO){
+    ReactDOM.render(
+      <CommentBox {... UserDTO}/>,
+      document.getElementById('content')
+    );
+}

@@ -1,15 +1,24 @@
-﻿@{
-    Layout = null;
+﻿@model ReactApp.DTO.UserListDTO
+
+@{
+    Layout = "_LTELayout";
+    ViewBag.Title = "Users";
 }
-<html>
-<head>
-    <title>Hello React</title>
-</head>
+
+
 <body>
+    Que?
     <div id="content"></div>
+    @section Scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
     <script src="@Url.Content("~/js/tutorial.jsx")"></script>
+    <script>
+        $(function () {
+            DisplayUsers(@Html.Raw((Json.Serialize(Model))));
+        });
+    </script>
+    }
 </body>
-</html>
+

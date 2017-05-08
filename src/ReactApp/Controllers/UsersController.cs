@@ -8,6 +8,7 @@ using Services;
 using Newtonsoft.Json;
 using Models;
 using Newtonsoft.Json.Linq;
+using ReactApp.DTO;
 
 namespace ReactApp.Controllers
 {
@@ -21,9 +22,11 @@ namespace ReactApp.Controllers
 
             var usersResponseObject = JsonConvert.DeserializeObject<ApiResponse>(usersResponseString);
 
-            var users = JsonConvert.DeserializeObject<List<User>>((usersResponseObject.data.ToString()));
+            var users = JsonConvert.DeserializeObject<List<UserDTO>>((usersResponseObject.data.ToString()));
 
-            return View(users);
+            var userListDTO = new UserListDTO(users);
+
+            return View(userListDTO);
         }
     }
 }
