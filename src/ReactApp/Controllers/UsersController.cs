@@ -26,6 +26,8 @@ namespace ReactApp.Controllers
 
             var userListDTO = new UserListDTO(users);
 
+            var test = userListDTO.Users.First();
+
             return View(userListDTO);
         }
     }

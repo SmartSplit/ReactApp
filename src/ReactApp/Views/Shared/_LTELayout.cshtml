@@ -100,7 +100,8 @@
                 <ul class="sidebar-menu">
                     <li class="header">MAIN NAVIGATION</li>
                     <li><a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span> </a></li>
-                    <li><a href="@Url.RouteUrl("Users")"><i class="fa fa-user"></i> <span>Users</span></a></li>
+                    <li>@Html.ActionLink("Users", "Index", "Users")</li>
+                    <li><a href="@Url.RouteUrl("Users", "Index")"><i class="fa fa-user"></i> <span>Users</span></a></li>
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -129,8 +130,7 @@
             <div class="pull-right hidden-xs">
                 <b>Version</b> 2.3.8
             </div>
-            <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
-            reserved.
+            <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong>
         </footer>
         <!-- Add the sidebar's background. This div must be placed
              immediately after the control sidebar -->
@@ -145,6 +145,9 @@
     <script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
     <script src="../../plugins/fastclick/fastclick.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
