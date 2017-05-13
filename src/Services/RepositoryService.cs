@@ -91,11 +91,11 @@ namespace Services
 
         public async virtual Task<ApiResponse> GetAll()
         {
-            var usersResponseString = await _consumer.MakeCall(_resourcePath);
+            var responseString = await _consumer.MakeCall(_resourcePath);
 
-            var usersResponseObject = JsonConvert.DeserializeObject<ApiResponse>(usersResponseString);
+            var responseObject = JsonConvert.DeserializeObject<ApiResponse>(responseString);
 
-            return usersResponseObject;
+            return responseObject;
         }
 
         //public virtual T GetSingle(int id)
