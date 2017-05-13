@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ReactApp.DTO
+namespace ReactApp.ViewModels
 {
-    public class UserViewModel
+    public class UserListViewModel
     {
-        public List<UserDTO> Users { get; set; }
+        public List<UserViewModel> Users { get; set; }
 
-        public UserViewModel(List<UserDTO> users)
+        public UserListViewModel(List<UserViewModel> users)
         {
             this.Users = users;
+        }
+
+        public UserListViewModel()
+        {
+
         }
     }
 }

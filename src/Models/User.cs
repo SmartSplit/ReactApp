@@ -11,6 +11,8 @@ namespace Models
 
         public string Name { get; set; }
 
+        public string Email { get; set; }
+
         public string ResourcePath { get; set; }
 
         public User()

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ReactApp.DTO
+namespace ReactApp.ViewModels
 {
-    public class UserDTO
+    public class UserViewModel
     {
         public string Id { get; set; }
 

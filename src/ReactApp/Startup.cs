@@ -12,13 +12,21 @@ using React.AspNet;
 using Autofac;
 using Services;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 
 namespace ReactApp
 {
     public class Startup
     {
+        private MapperConfiguration _mapperConfiguration { get; set; }
+
         public Startup(IHostingEnvironment env)
         {
+            _mapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MapperProfile());
+            });
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -43,6 +51,9 @@ namespace ReactApp
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
             services.AddMvc();
+
+            services.AddSingleton<IMapper>(sp => _mapperConfiguration.CreateMapper());
+
 
             // Create the container builder.
             var builder = new ContainerBuilder();
@@ -85,7 +96,6 @@ namespace ReactApp
             // Initialise ReactJS.NET. Must be before static files.
             app.UseReact(config =>
             {
-                config.AddScript("~/../Views/Users/Components/UserDisplayComponent.jsx");
                 // If you want to use server-side rendering of React components,
                 // add all the necessary JavaScript files here. This includes
                 // your components as well as all of their dependencies.

@@ -11,8 +11,8 @@ namespace Services
 {
     public interface IRepositoryService<T> where T : IModel<string>
     {
-        Task<ApiResponse> GetAll();
-        //T GetSingle(int id);
+        Task<List<T>> GetAll();
+        Task<T> GetById(string id);
         //IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
         //ServiceResult Add(T entity);
         //ServiceResult Delete(T entity);
@@ -89,29 +89,28 @@ namespace Services
         //    return query;
         //}
 
-        public async virtual Task<ApiResponse> GetAll()
+        public async virtual Task<List<T>> GetAll()
         {
-            var responseString = await _consumer.MakeCall(_resourcePath);
+            var responseObject = await _consumer.MakeCall(_resourcePath);
+            var users = JsonConvert.DeserializeObject<List<T>>((responseObject.data.ToString()));
 
-            var responseObject = JsonConvert.DeserializeObject<ApiResponse>(responseString);
-
-            return responseObject;
+            return users;
         }
 
-        //public virtual T GetSingle(int id)
-        //{
+        public async virtual Task<T> GetById(string id)
+        {
+            var responseObject = await _consumer.MakeCall(_resourcePath + "?filters=id=" + id);
+            var users = JsonConvert.DeserializeObject<List<T>>((responseObject.data.ToString()));
 
-        //    var result = _set.FirstOrDefault(r => r.Id == id);
-
-        //    return result; ;
-        //}
+            return users.FirstOrDefault();
+        }
 
         //public virtual ServiceResult Save()
         //{
         //    ServiceResult result = new ServiceResult();
         //    try
         //    {
-        //        //((DbContext)_context).SaveChanges();
+        //        ((DbContext)_context).SaveChanges();
         //    }
         //    catch (Exception e)
         //    {

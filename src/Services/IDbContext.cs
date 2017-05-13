@@ -7,6 +7,6 @@ namespace Services
 {
     public interface IConsumer
     {
-        Task<string> MakeCall(string path);
+        Task<ApiResponse> MakeCall(string path);
     }
 }

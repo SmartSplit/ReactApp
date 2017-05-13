@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReactApp.DTO
 {
-    public class UserViewModel
+    public class UserDTO
     {
         public string Id { get; set; }
 

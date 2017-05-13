@@ -72,15 +72,17 @@ namespace Services
             }
         }
 
-        public async Task<string> MakeCall(string path)
+        public async Task<ApiResponse> MakeCall(string path)
         {
             try
             {
                 using (var client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token.access_token);
+                    var responseString = await client.GetStringAsync(_servicePath + _version + "/" + path);
+                    var responseObject = JsonConvert.DeserializeObject<ApiResponse>(responseString);
 
-                    return await client.GetStringAsync(_servicePath + _version + "/" + path);
+                    return responseObject;
                 }
             }
             catch (Exception e)

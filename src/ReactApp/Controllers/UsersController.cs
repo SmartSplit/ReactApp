@@ -8,34 +8,74 @@ using Services;
 using Newtonsoft.Json;
 using Models;
 using Newtonsoft.Json.Linq;
-using ReactApp.DTO;
+using ReactApp.ViewModels;
+using AutoMapper;
 
 namespace ReactApp.Controllers
 {
     public class UsersController : Controller
     {
         IRepositoryService<User> _usersService;
+        private readonly IMapper _mapper;
 
-        public UsersController(IRepositoryService<User> usersService)
+        public UsersController(IRepositoryService<User> usersService, IMapper mapper)
         {
             _usersService = usersService;
+            _mapper = mapper;
         }
 
+        [Route("users", Name = "Users")]
         public async Task<IActionResult> Index()
         {
-            //Consumer consumer = Consumer.Create().Result;
+            var users = await _usersService.GetAll();
 
-            //var usersResponseString = await consumer.MakeCall("users");
+            UserListViewModel viewModel = new UserListViewModel()
+            {
+                Users = users.Select(r => _mapper.Map<User, UserViewModel>(r)).ToList()
+            };
 
-            //var usersResponseObject = JsonConvert.DeserializeObject<ApiResponse>(usersResponseString);
+            return View(viewModel);
+        }
 
-            ApiResponse usersResponseObject = await _usersService.GetAll();
+        [Route("users/{id}", Name = "User")]
+        public async Task<ActionResult> Details(string id)
+        {
+            if(id == "")
+            {
+                return new BadRequestResult();
+            }
 
-            var users = JsonConvert.DeserializeObject<List<UserDTO>>((usersResponseObject.data.ToString()));
+            var user = await _usersService.GetById(id);
+            var viewModel = _mapper.Map<User, UserViewModel>(user);
 
-            var userListDTO = new UserListDTO(users);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-            return View(userListDTO);
+
+            return View(viewModel);
+        }
+
+        [Route("users/{id}/edit", Name = "UserEditForm")]
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == "")
+            {
+                return new BadRequestResult();
+            }
+
+            var user = await _usersService.GetById(id);
+            var viewModel = _mapper.Map<User, UserViewModel>(user);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+
+
+            return View(viewModel);
         }
     }
 }
