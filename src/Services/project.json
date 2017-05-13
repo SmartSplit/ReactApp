@@ -2,12 +2,14 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "Autofac": "4.5.0",
     "Microsoft.Extensions.Configuration": "1.0.0",
     "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
     "Microsoft.Extensions.Configuration.Json": "1.0.0",
     "Models": "1.0.0-*",
     "NETStandard.Library": "1.6.0",
-    "Newtonsoft.Json": "10.0.2"
+    "Newtonsoft.Json": "10.0.2",
+    "System.Reflection.TypeExtensions": "4.3.0"
   },
 
   "frameworks": {

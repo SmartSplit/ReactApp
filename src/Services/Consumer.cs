@@ -11,7 +11,7 @@ using System.IO;
 
 namespace Services
 {
-    public class Consumer
+    public class Consumer : IConsumer
     {
         private JWT token;
         private int _clientId;

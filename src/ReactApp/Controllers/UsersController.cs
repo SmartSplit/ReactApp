@@ -14,19 +14,26 @@ namespace ReactApp.Controllers
 {
     public class UsersController : Controller
     {
+        IRepositoryService<User> _usersService;
+
+        public UsersController(IRepositoryService<User> usersService)
+        {
+            _usersService = usersService;
+        }
+
         public async Task<IActionResult> Index()
         {
-            Consumer consumer = Consumer.Create().Result;
+            //Consumer consumer = Consumer.Create().Result;
 
-            var usersResponseString = await consumer.MakeCall("users");
+            //var usersResponseString = await consumer.MakeCall("users");
 
-            var usersResponseObject = JsonConvert.DeserializeObject<ApiResponse>(usersResponseString);
+            //var usersResponseObject = JsonConvert.DeserializeObject<ApiResponse>(usersResponseString);
+
+            ApiResponse usersResponseObject = await _usersService.GetAll();
 
             var users = JsonConvert.DeserializeObject<List<UserDTO>>((usersResponseObject.data.ToString()));
 
             var userListDTO = new UserListDTO(users);
-
-            var test = userListDTO.Users.First();
 
             return View(userListDTO);
         }

@@ -1,6 +1,6 @@
 ﻿var Table = React.createClass({
     render: function () {
-        console.log(this.props);
+
         let tableHeaders = this.props.headers.map((header, i) => {
             return <th key={i}>{header}</th>;
         });

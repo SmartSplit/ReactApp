@@ -5,10 +5,17 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class User
+    public class User : IModel<string>
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string Name { get; set; }
+
+        public string ResourcePath { get; set; }
+
+        public User()
+        {
+            this.ResourcePath = "users";
+        }
     }
 }
