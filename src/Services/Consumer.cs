@@ -17,6 +17,7 @@ namespace Services
         private int _clientId;
         private string _clientSecret;
         private string _servicePath;
+        private string _basePath;
         private string _tokenGenerationPath;
         private string _username;
         private string _password;
@@ -42,6 +43,7 @@ namespace Services
 
             _servicePath = protocol + "://" + baseUrl + "/";
             _version = Configuration["version"];
+            _basePath = _servicePath + _version + "/";
             _clientId = Convert.ToInt32(Configuration["clientId"]);
             _clientSecret = Configuration["clientSecret"];
             _tokenGenerationPath = Configuration["tokenGenerationPath"];
@@ -72,17 +74,54 @@ namespace Services
             }
         }
 
-        public async Task<ApiResponse> MakeCall(string path)
+        public async Task<ApiResponse> MakeGetCall(string path)
         {
             try
             {
                 using (var client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token.access_token);
-                    var responseString = await client.GetStringAsync(_servicePath + _version + "/" + path);
+
+                    var responseString = await client.GetStringAsync(_basePath + path);
                     var responseObject = JsonConvert.DeserializeObject<ApiResponse>(responseString);
 
                     return responseObject;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error making api call at " + path);
+            }
+        }
+
+        public async Task<HttpResponseMessage> MakePostCall(string path, HttpContent content)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token.access_token);
+                    var response = await client.PostAsync(_basePath + path, content);
+
+                    return response;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error making api call at " + path);
+            }
+        }
+
+        public async Task<HttpResponseMessage> MakePutCall(string path, HttpContent content)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token.access_token);
+                    var response = await client.PutAsync(_basePath + path, content);
+
+                    return response;
                 }
             }
             catch (Exception e)

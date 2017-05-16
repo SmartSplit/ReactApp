@@ -12,10 +12,10 @@ namespace Services
         Error = 0,
 
         [Description("Success")]
-        Succes = 1,
+        Success = 1,
 
         [Description("Warning")]
-        Warrnig,
+        Warning,
 
 
         [Description("Information")]
@@ -29,7 +29,7 @@ namespace Services
 
         public ServiceResult()
         {
-            Result = ServiceResultStatus.Succes;
+            Result = ServiceResultStatus.Success;
             Messages = new List<string>();
         }
 

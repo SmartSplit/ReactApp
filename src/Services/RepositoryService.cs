@@ -6,6 +6,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Net.Http;
+using System.Text;
 
 namespace Services
 {
@@ -13,10 +15,10 @@ namespace Services
     {
         Task<List<T>> GetAll();
         Task<T> GetById(string id);
+        Task<ServiceResult> Create(T entity); 
         //IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
-        //ServiceResult Add(T entity);
         //ServiceResult Delete(T entity);
-        //ServiceResult Edit(T entity);
+        Task<ServiceResult> Edit(T entity);
         //ServiceResult Save();
 
     }
@@ -91,7 +93,7 @@ namespace Services
 
         public async virtual Task<List<T>> GetAll()
         {
-            var responseObject = await _consumer.MakeCall(_resourcePath);
+            var responseObject = await _consumer.MakeGetCall(_resourcePath);
             var users = JsonConvert.DeserializeObject<List<T>>((responseObject.data.ToString()));
 
             return users;
@@ -99,10 +101,76 @@ namespace Services
 
         public async virtual Task<T> GetById(string id)
         {
-            var responseObject = await _consumer.MakeCall(_resourcePath + "?filters=id=" + id);
+            var responseObject = await _consumer.MakeGetCall(_resourcePath + "?filters=id=" + id);
             var users = JsonConvert.DeserializeObject<List<T>>((responseObject.data.ToString()));
 
             return users.FirstOrDefault();
+        }
+
+        public async virtual Task<ServiceResult> Create(T entity)
+        {
+            ServiceResult result = new ServiceResult();
+
+            try
+            {
+                var stringContent = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+
+                var responseObject = await _consumer.MakePostCall(_resourcePath, stringContent);
+
+                if (!responseObject.IsSuccessStatusCode)
+                {
+                    var responseContent = await responseObject.Content.ReadAsStringAsync();
+                    result = AddErrors(result, responseContent);
+                }
+            }
+            catch (Exception e)
+            {
+                result.Result = ServiceResultStatus.Error;
+                result.Messages.Add(e.Message);
+            }
+
+            return result;
+        }
+
+        public async virtual Task<ServiceResult> Edit(T entity)
+        {
+            ServiceResult result = new ServiceResult();
+
+            try
+            {
+                var stringContent = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+
+                var responseObject = await _consumer.MakePutCall(_resourcePath + "/" + entity.Id, stringContent);
+
+                if(!responseObject.IsSuccessStatusCode)
+                {
+                    var responseContent = await responseObject.Content.ReadAsStringAsync();
+                    result = AddErrors(result, responseContent);
+                }
+            }
+            catch (Exception e)
+            {
+                result.Result = ServiceResultStatus.Error;
+                result.Messages.Add(e.Message);
+            }
+
+            return result;
+        }
+
+        private ServiceResult AddErrors(ServiceResult result, string responseContent)
+        {
+            result.Result = ServiceResultStatus.Warning;
+            var fieldsErrors = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(responseContent);
+
+            foreach (var fieldErrors in fieldsErrors)
+            {
+                foreach (var fieldError in fieldErrors.Value)
+                {
+                    result.Messages.Add(fieldError);
+                }
+            }
+
+            return result;
         }
 
         //public virtual ServiceResult Save()

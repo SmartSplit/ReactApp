@@ -24,7 +24,6 @@ namespace ReactApp.Controllers
             _mapper = mapper;
         }
 
-        [Route("users", Name = "Users")]
         public async Task<IActionResult> Index()
         {
             var users = await _usersService.GetAll();
@@ -37,7 +36,6 @@ namespace ReactApp.Controllers
             return View(viewModel);
         }
 
-        [Route("users/{id}", Name = "User")]
         public async Task<ActionResult> Details(string id)
         {
             if(id == "")
@@ -57,7 +55,37 @@ namespace ReactApp.Controllers
             return View(viewModel);
         }
 
-        [Route("users/{id}/edit", Name = "UserEditForm")]
+        public IActionResult Create()
+        {
+            var viewModel = new UserViewModel();
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(UserViewModel viewModel)
+        {
+            if (true)
+            {
+                User userToCreate = new User();
+
+                _mapper.Map<UserViewModel, User>(viewModel, userToCreate);
+                var result = await _usersService.Create(userToCreate);
+
+                if (result.Result == ServiceResultStatus.Warning)
+                {
+                    ViewBag.Errors = result.Messages;
+                }
+
+                if (result.Result == ServiceResultStatus.Success)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+
+            return View(viewModel);
+        }
+
         public async Task<IActionResult> Edit(string id)
         {
             if (id == "")
@@ -74,6 +102,33 @@ namespace ReactApp.Controllers
             }
 
 
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserViewModel viewModel)
+        {
+            if(true)
+            {
+                User userToEdit = await _usersService.GetById(viewModel.Id);
+
+                if(userToEdit != null)
+                {
+                    _mapper.Map<UserViewModel, User>(viewModel, userToEdit);
+                    var result = await _usersService.Edit(userToEdit);
+
+                    if(result.Result == ServiceResultStatus.Warning)
+                    {
+                        ViewBag.Errors = result.Messages;
+                    }
+
+                    if (result.Result == ServiceResultStatus.Success)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
 
             return View(viewModel);
         }
