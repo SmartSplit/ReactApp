@@ -8,7 +8,8 @@
 <div class="top-actions">
     <a href="@Url.Action("Create")" class="btn btn-flat btn-success"><i class="fa fa-plus"></i>Add user</a>
 </div>
-
+@if (ViewBag.Error != true)
+{
 <body>
     <table class="table table-bordered table-striped">
         <thead>
@@ -42,4 +43,9 @@
         </tbody>
     </table>
 </body>
+}
+else
+{
+    <div class="alert alert-info">Sorry, can't fetch data.</div>
+}
 

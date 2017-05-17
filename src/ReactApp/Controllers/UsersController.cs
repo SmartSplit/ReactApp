@@ -26,14 +26,23 @@ namespace ReactApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var users = await _usersService.GetAll();
-
-            UserListViewModel viewModel = new UserListViewModel()
+            try
             {
-                Users = users.Select(r => _mapper.Map<User, UserViewModel>(r)).ToList()
-            };
+                var users = await _usersService.GetAll();
 
-            return View(viewModel);
+                UserListViewModel viewModel = new UserListViewModel()
+                {
+                    Users = users.Select(r => _mapper.Map<User, UserViewModel>(r)).ToList()
+                };
+
+                return View(viewModel);
+            }
+            catch (ApiCallException e)
+            {
+                ViewBag.Error = true;
+
+                return View();
+            }
         }
 
         public async Task<ActionResult> Details(string id)

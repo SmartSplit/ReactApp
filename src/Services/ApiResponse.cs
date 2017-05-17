@@ -16,5 +16,7 @@ namespace Services
         public int from { get; set; }
         public int to { get; set; }
         public object data { get; set; }
+
+        public bool failed { get; set; }
     }
 }

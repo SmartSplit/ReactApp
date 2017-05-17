@@ -28,7 +28,14 @@ namespace Services
         public async static Task<Consumer> Create()
         {
             Consumer consumer = new Consumer();
-            consumer.token = await consumer.GetAccessToken();
+            try
+            {
+                consumer.token = await consumer.GetAccessToken();
+            }
+            catch (Exception e)
+            {
+
+            }
 
             return consumer;
         }
@@ -67,6 +74,8 @@ namespace Services
 
                 string stringData = JsonConvert.SerializeObject(postData);
                 var contentData = new StringContent(stringData, Encoding.UTF8, "application/json");
+
+
                 var response = await client.PostAsync(_servicePath + _tokenGenerationPath, contentData);
                 var contents = await response.Content.ReadAsStringAsync();
 
@@ -80,7 +89,7 @@ namespace Services
             {
                 using (var client = new HttpClient())
                 {
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token.access_token);
+                    await EnsureToken(client);
 
                     var responseString = await client.GetStringAsync(_basePath + path);
                     var responseObject = JsonConvert.DeserializeObject<ApiResponse>(responseString);
@@ -90,7 +99,7 @@ namespace Services
             }
             catch (Exception e)
             {
-                throw new Exception("Error making api call at " + path);
+                throw new ApiCallException("Error making api call at " + path);
             }
         }
 
@@ -108,7 +117,7 @@ namespace Services
             }
             catch (Exception e)
             {
-                throw new Exception("Error making api call at " + path);
+                throw new ApiCallException("Error making api call at " + path);
             }
         }
 
@@ -126,8 +135,27 @@ namespace Services
             }
             catch (Exception e)
             {
-                throw new Exception("Error making api call at " + path);
+                throw new ApiCallException("Error making api call at " + path);
             }
+        }
+
+        private async Task<bool> EnsureToken(HttpClient client)
+        {
+            if(this.token == null)
+            {
+                try
+                {
+                    this.token = await GetAccessToken();
+
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token.access_token);
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

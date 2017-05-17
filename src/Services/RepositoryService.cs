@@ -93,7 +93,9 @@ namespace Services
 
         public async virtual Task<List<T>> GetAll()
         {
+
             var responseObject = await _consumer.MakeGetCall(_resourcePath);
+
             var users = JsonConvert.DeserializeObject<List<T>>((responseObject.data.ToString()));
 
             return users;
