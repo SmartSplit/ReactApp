@@ -51,7 +51,7 @@ namespace ReactApp
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
             services.AddMvc();
-
+            
             services.AddSingleton<IMapper>(sp => _mapperConfiguration.CreateMapper());
 
 

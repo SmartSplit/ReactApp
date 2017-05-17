@@ -2,6 +2,7 @@
 /// <reference path="bootstrap/js/bootstrap.js" />
 /// <reference path="bootstrap/js/npm.js" />
 /// <reference path="js/app.min.js" />
+/// <reference path="js/bundle.min.js" />
 /// <reference path="js/demo.js" />
 /// <reference path="js/js/app.js" />
 /// <reference path="js/js/demo.js" />
