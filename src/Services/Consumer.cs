@@ -87,15 +87,13 @@ namespace Services
         {
             try
             {
-                using (var client = new HttpClient())
-                {
-                    await EnsureToken(client);
+                HttpClient client = new HttpClient();
+                client = await EnsureToken(client);
 
-                    var responseString = await client.GetStringAsync(_basePath + path);
-                    var responseObject = JsonConvert.DeserializeObject<ApiResponse>(responseString);
+                var responseString = await client.GetStringAsync(_basePath + path);
+                var responseObject = JsonConvert.DeserializeObject<ApiResponse>(responseString);
 
-                    return responseObject;
-                }
+                return responseObject;
             }
             catch (Exception e)
             {
@@ -139,23 +137,23 @@ namespace Services
             }
         }
 
-        private async Task<bool> EnsureToken(HttpClient client)
+        private async Task<HttpClient> EnsureToken(HttpClient client)
         {
-            if(this.token == null)
+            if (this.token == null)
             {
                 try
                 {
                     this.token = await GetAccessToken();
-
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token.access_token);
                 }
                 catch (Exception e)
                 {
-                    return false;
+                    return client;
                 }
             }
 
-            return true;
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token.access_token);
+
+            return client;
         }
     }
 }
