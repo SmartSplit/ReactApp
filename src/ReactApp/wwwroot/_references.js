@@ -1,5 +1,4 @@
 ﻿/// <autosync enabled="true" />
-/// <reference path="../views/dashboard/scripts.js" />
 /// <reference path="bootstrap/js/bootstrap.js" />
 /// <reference path="bootstrap/js/npm.js" />
 /// <reference path="js/app.min.js" />

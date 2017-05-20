@@ -1,4 +1,4 @@
-﻿@model ReactApp.ViewModels.DashboardViewModel
+﻿@model ReactApp.ViewModels.Dashboard.DashboardViewModel
 
 @{
     Layout = "_LTELayout";
@@ -92,27 +92,70 @@
             <!-- /.box-body -->
         </div>
     </div>
+    <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Users registrations in last 30 days</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" id="refresh_morris_users">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body chart-responsive">
+                <div class="chart" id="line-chart" style="height: 300px;"></div>
+            </div>
+            <div class="overlay" id="overlay_morris_users" style="display: none">
+                <i class="fa fa-refresh fa-spin"></i>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
 </div>
 @section Scripts {
     <script>
 
         $(function () {
-            loadMorrisSession();
+            loadMorrisSessions();
+            loadMorrisUsers();
         });
 
         $('body').on('click', '#refresh_morris_sessions', function () {
-            loadMorrisSession();
+            loadMorrisSessions();
         });
 
-        function loadMorrisSession()
+        $('body').on('click', '#refresh_morris_users', function () {
+            loadMorrisUsers();
+        });
+
+        function loadMorrisSessions()
         {
             $.ajax({
-                url: '@Url.Action("LoadMorrisSession", "Dashboard")',
+                url: '@Url.Action("LoadMorrisSessions", "Dashboard")',
                 beforeSend: () => { $("#overlay_morris_sessions").show(); }
             }).done((data) => {
                 morrisSession(data);
             }).always(() => {
                 $("#overlay_morris_sessions").hide();
+            }).fail((error) => {
+                console.log(error);
+            });
+        }
+
+        function loadMorrisUsers()
+        {
+            $.ajax({
+                url: '@Url.Action("LoadMorrisUsers", "Users")',
+                beforeSend: () => { $("#overlay_morris_users").show(); }
+            }).done((data) => {
+                console.log(data);
+                morrisUsers(data);
+            }).always(() => {
+                $("#overlay_morris_users").hide();
             }).fail((error) => {
                 console.log(error);
             });
@@ -128,6 +171,20 @@
                 labels: ['Sessions started', 'Session ended'],
                 hideHover: 'auto',
                 lineColors: ['#a0d0e0', '#3c8dbc'],
+            });
+        }
+
+        function morrisUsers(data)
+        {
+            var line = new Morris.Line({
+                element: 'line-chart',
+                resize: true,
+                data: data,
+                xkey: 'xKey',
+                ykeys: ['yKey'],
+                labels: ['Registered'],
+                lineColors: ['#3c8dbc'],
+                hideHover: 'auto'
             });
         }
     </script>

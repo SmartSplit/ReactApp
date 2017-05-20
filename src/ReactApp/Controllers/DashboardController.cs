@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Services;
 using Models;
-using ReactApp.ViewModels;
+using ReactApp.ViewModels.Dashboard;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -37,7 +37,7 @@ namespace ReactApp.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> LoadMorrisSession()
+        public async Task<IActionResult> LoadMorrisSessions()
         {
             var sessions = (await _sessionService.GetAll()).ToList();
             var sessionsStarted = sessions.OrderBy(x => x.StartDate).ToList();
