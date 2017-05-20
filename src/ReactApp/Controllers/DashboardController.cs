@@ -8,8 +8,6 @@ using Services;
 using Models;
 using ReactApp.ViewModels.Dashboard;
 
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace ReactApp.Controllers
 {
     public class DashboardController : Controller

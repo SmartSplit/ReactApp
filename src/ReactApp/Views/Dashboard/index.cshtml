@@ -84,7 +84,7 @@
                 </div>
             </div>
             <div class="box-body chart-responsive">
-                <div class="chart" id="revenue-chart" style="height: 300px;"></div>
+                <div class="chart" id="sessions-line-chart" style="height: 300px;"></div>
             </div>
             <div class="overlay" id="overlay_morris_sessions" style="display: none">
                 <i class="fa fa-refresh fa-spin"></i>
@@ -107,7 +107,7 @@
                 </div>
             </div>
             <div class="box-body chart-responsive">
-                <div class="chart" id="line-chart" style="height: 300px;"></div>
+                <div class="chart" id="users-line-chart" style="height: 300px;"></div>
             </div>
             <div class="overlay" id="overlay_morris_users" style="display: none">
                 <i class="fa fa-refresh fa-spin"></i>
@@ -163,8 +163,8 @@
 
         function morrisSession(data)
         {
-            var area = new Morris.Area({
-                element: 'revenue-chart',
+            var area = new Morris.Line({
+                element: 'sessions-line-chart',
                 data: data,
                 xkey: 'xKey',
                 ykeys: ['startedCount', 'endedCount'],
@@ -177,7 +177,7 @@
         function morrisUsers(data)
         {
             var line = new Morris.Line({
-                element: 'line-chart',
+                element: 'users-line-chart',
                 resize: true,
                 data: data,
                 xkey: 'xKey',
