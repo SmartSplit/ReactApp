@@ -13,10 +13,9 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="../../css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="../../css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="~/css/bundle.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -100,7 +99,7 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li><a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span> </a></li>
+                    <li><a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-dashboard"></i> <span>Dashboard</span> </a></li>
                     <li><a href="@Url.Action("Index", "Users")"><i class="fa fa-user"></i> <span>Users</span></a></li>
                 </ul>
             </section>
@@ -151,9 +150,7 @@
     </div>
     <!-- ./wrapper -->
     <script src="../../js/bundle.min.js"></script>
-    <script src="../../css/bundle.css"></script>
     <script src="../../js/site.js"></script>
-    <script src="../../css/site.css"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

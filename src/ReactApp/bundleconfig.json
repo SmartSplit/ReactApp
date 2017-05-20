@@ -33,6 +33,7 @@
     "outputFileName": "wwwroot/css/bundle.css",
     "inputFiles": [
       "wwwroot/css/AdminLTE.css",
+      "wwwroot/css/skins/_all-skins.css",
       "wwwroot/css/morris.css"
     ]
   },
