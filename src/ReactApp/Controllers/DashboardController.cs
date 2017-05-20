@@ -32,6 +32,7 @@ namespace ReactApp.Controllers
         {
             DashboardViewModel viewModel = new DashboardViewModel();
             viewModel.UsersCount = (await _usersService.GetAll()).Count;
+            viewModel.SessionsCount = (await _sessionService.GetAll()).Count;
 
             return View(viewModel);
         }

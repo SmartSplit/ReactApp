@@ -8,5 +8,6 @@ namespace ReactApp.ViewModels
     public class DashboardViewModel
     {
         public int UsersCount { get; set; }
+        public int SessionsCount { get; set; }
     }
 }
