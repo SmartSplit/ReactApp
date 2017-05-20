@@ -47,19 +47,11 @@ namespace ReactApp.Controllers
             for (var day = DateTime.Today.Date; day.Date >= DateTime.Today.AddDays(-30); day = day.AddDays(-1))
             {
                 MorrisSessionViewModel viewModel = new MorrisSessionViewModel();
-                viewModel.xKey = day.ToString("dd-MM-yyyy");
+                viewModel.xKey = day.ToString("yyyy-MM-dd");
                 viewModel.startedCount = sessionsStarted.Where(x => x.StartDate.Date == day.Date).Count();
                 viewModel.endedCount = sessionsEnded.Where(x => x.EndDate.Value.Date == day.Date).Count();
                 morrisData.Add(viewModel);
             }
-
-            //    sessions.ForEach(item =>
-            //{
-            //    MorrisSessionViewModel viewModel = new MorrisSessionViewModel();
-            //    viewModel.xKey = item.First().CreatedAt.Date.ToString("dd-MM-yyyy");
-            //    viewModel.yKey = item.Count().ToString();
-            //    morrisData.Add(viewModel);
-            //});
             return Json(morrisData);
         }
     }
