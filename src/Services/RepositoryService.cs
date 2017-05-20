@@ -13,6 +13,7 @@ namespace Services
 {
     public interface IRepositoryService<T> where T : IModel<string>
     {
+        ParametersBuilder<T> Builder();
         Task<List<T>> GetAll();
         Task<T> GetById(string id);
         Task<ServiceResult> Create(T entity); 
@@ -27,6 +28,7 @@ namespace Services
     {
         protected IConsumer _consumer;
         protected string _resourcePath;
+        protected ParametersBuilder<T> _builder;
 
         public RepositoryService(IConsumer consumer)
         {
@@ -34,7 +36,9 @@ namespace Services
             //todo maybe better?
             var sampleInstance = (T)Activator.CreateInstance(typeof(T), new object[] {  });
             _resourcePath = sampleInstance.ResourcePath;
+            _builder = new ParametersBuilder<T>(_consumer, _resourcePath);
         }
+
 
         //public virtual ServiceResult Add(T entity)
         //{
@@ -90,6 +94,11 @@ namespace Services
         //    IQueryable<T> query = _set.Where(predicate);
         //    return query;
         //}
+
+        public ParametersBuilder<T> Builder()
+        {
+            return _builder;
+        }
 
         public async virtual Task<List<T>> GetAll()
         {
