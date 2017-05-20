@@ -42,18 +42,9 @@ namespace ReactApp.Controllers
             var sessions = (await _sessionService.GetAll()).ToList();
             var sessionsStarted = sessions.OrderBy(x => x.StartDate).ToList();
             var sessionsEnded = sessions.Where(x => x.EndDate.HasValue).ToList();
+            MorrisDataBuilder morris = new MorrisDataBuilder();
 
-            List<MorrisSessionViewModel> morrisData = new List<MorrisSessionViewModel>();
-
-            for (var day = DateTime.Today.Date; day.Date >= DateTime.Today.AddDays(-30); day = day.AddDays(-1))
-            {
-                MorrisSessionViewModel viewModel = new MorrisSessionViewModel();
-                viewModel.xKey = day.ToString("yyyy-MM-dd");
-                viewModel.startedCount = sessionsStarted.Where(x => x.StartDate.Date == day.Date).Count();
-                viewModel.endedCount = sessionsEnded.Where(x => x.EndDate.Value.Date == day.Date).Count();
-                morrisData.Add(viewModel);
-            }
-            return Json(morrisData);
+            return Json(morris.dataForSessions(sessionsStarted, sessionsEnded));
         }
     }
 }
