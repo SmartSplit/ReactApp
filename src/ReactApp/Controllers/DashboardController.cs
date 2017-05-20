@@ -28,6 +28,14 @@ namespace ReactApp.Controllers
 
         public async Task<IActionResult> Index()
         {
+            _sessionService.GetBuilder()
+                .Filter("start_date", ">", DateTime.Today.AddDays(-30).ToString())
+                .Limit(1000);
+
+            _usersService.GetBuilder()
+                .Filter("start_date", ">", DateTime.Today.AddDays(-30).ToString())
+                .Limit(1000);
+
             DashboardViewModel viewModel = new DashboardViewModel();
             viewModel.UsersCount = (await _usersService.GetAll()).Count;
             viewModel.SessionsCount = (await _sessionService.GetAll()).Count;
@@ -37,6 +45,10 @@ namespace ReactApp.Controllers
 
         public async Task<IActionResult> LoadMorrisSessions()
         {
+            _sessionService.GetBuilder()
+                .Filter("start_date", ">", DateTime.Today.AddDays(-30).ToString())
+                .Limit(1000);
+
             var sessions = (await _sessionService.GetAll()).ToList();
             var sessionsStarted = sessions.OrderBy(x => x.StartDate).ToList();
             var sessionsEnded = sessions.Where(x => x.EndDate.HasValue).ToList();

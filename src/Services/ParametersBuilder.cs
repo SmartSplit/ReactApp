@@ -5,23 +5,67 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public class ParametersBuilder<T>where T : class
+    public class ParametersBuilder
     {
-        private readonly ParametersBuilderFluent<T> _set;
+        private readonly ParametersBuilderFluent _set;
 
-        public ParametersBuilder(IConsumer consumer, string resourcePath)
+        public ParametersBuilder()
         {
-            _set = new ParametersBuilderFluent<T>(this, consumer, resourcePath);
-
+            Filters = new List<string>();
+            _set = new ParametersBuilderFluent(this);
         }
 
-        public ParametersBuilderFluent<T> Set
+        public ParametersBuilderFluent Set
         {
             get { return _set;  }
         }
-        public int Page { get; set; }
-        public int Limit { get; set; }
-        public Dictionary<string, string> Filters { get; set; }
+        public int? Page { get; set; }
+        public int? Limit { get; set; }
+        public List<string> Filters { get; set; }
         public string Order { get; set; }
+
+        public string getUrl()
+        {
+            return PageParam() + LimitParam() + FiltersParam() + OrderParam();
+        }
+
+        public override string ToString()
+        {
+            Console.WriteLine(getUrl());
+            return getUrl();
+        }
+
+        public string PageParam()
+        {
+            return Page != null ? "&page=" + Page.Value : "";
+        }
+
+        public string LimitParam()
+        {
+            return Limit != null ? "&limit=" + Limit.Value : "";
+        }
+
+        public string FiltersParam()
+        {
+            if (Filters != null)
+            {
+                string filtersString = "&filters=";
+                foreach (var item in Filters)
+                {
+                    filtersString += item + ",";
+                }
+
+                return filtersString.Substring(0, filtersString.Length - 1);
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        public string OrderParam()
+        {
+            return Order != null ? "&order=" + Order : "";
+        }
     }
 }

@@ -145,6 +145,10 @@ namespace ReactApp.Controllers
 
         public async Task<IActionResult> LoadMorrisUsers()
         {
+            _usersService.GetBuilder()
+                .Filter("start_date", ">", DateTime.Today.AddDays(-30).ToString())
+                .Limit(1000);
+
             MorrisDataBuilder morris = new MorrisDataBuilder();
             var users = (await _usersService.GetAll()).ToList();
 

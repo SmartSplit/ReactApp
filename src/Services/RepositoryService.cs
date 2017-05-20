@@ -13,7 +13,7 @@ namespace Services
 {
     public interface IRepositoryService<T> where T : IModel<string>
     {
-        ParametersBuilder<T> Builder();
+        ParametersBuilderFluent GetBuilder();
         Task<List<T>> GetAll();
         Task<T> GetById(string id);
         Task<ServiceResult> Create(T entity); 
@@ -28,7 +28,7 @@ namespace Services
     {
         protected IConsumer _consumer;
         protected string _resourcePath;
-        protected ParametersBuilder<T> _builder;
+        protected ParametersBuilder _builder;
 
         public RepositoryService(IConsumer consumer)
         {
@@ -36,7 +36,7 @@ namespace Services
             //todo maybe better?
             var sampleInstance = (T)Activator.CreateInstance(typeof(T), new object[] {  });
             _resourcePath = sampleInstance.ResourcePath;
-            _builder = new ParametersBuilder<T>(_consumer, _resourcePath);
+            _builder = new ParametersBuilder();
         }
 
 
@@ -95,15 +95,14 @@ namespace Services
         //    return query;
         //}
 
-        public ParametersBuilder<T> Builder()
+        public ParametersBuilderFluent GetBuilder()
         {
-            return _builder;
+            return _builder.Set;
         }
 
         public async virtual Task<List<T>> GetAll()
         {
-
-            var responseObject = await _consumer.MakeGetCall(_resourcePath + "?limit=1000");
+            var responseObject = await _consumer.MakeGetCall(_resourcePath + "?" + _builder.ToString());
 
             var users = JsonConvert.DeserializeObject<List<T>>((responseObject.data.ToString()));
 

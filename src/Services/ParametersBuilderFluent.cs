@@ -6,37 +6,36 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public class ParametersBuilderFluent<T> where T : class
+    public class ParametersBuilderFluent
     {
-        private readonly ParametersBuilder<T> _builder;
-        protected IConsumer _consumer;
-        protected string _resourcePath;
+        private readonly ParametersBuilder _builder;
 
-        public ParametersBuilderFluent(ParametersBuilder<T> builder, IConsumer consumer, string resourcePath)
+        public ParametersBuilderFluent(ParametersBuilder builder)
         {
             _builder = builder;
-            _consumer = consumer;
-            _resourcePath = resourcePath;
         }
 
-        public ParametersBuilderFluent<T> Limit(int limit)
+        public ParametersBuilderFluent Limit(int limit)
         {
             _builder.Limit = limit;
             return this;
         }
-        public ParametersBuilderFluent<T> Page(int page)
+        public ParametersBuilderFluent Page(int page)
         {
             _builder.Page = page;
             return this;
         }
 
-        public async Task<List<T>> Get()
+        public ParametersBuilderFluent Filter(string column, string operant, string val)
         {
-            var responseObject = await _consumer.MakeGetCall(_resourcePath + "?limit=1000");
+            _builder.Filters.Add(column + operant + val);
+            return this;
+        }
 
-            var users = JsonConvert.DeserializeObject<List<T>>((responseObject.data.ToString()));
-
-            return users;
+        public ParametersBuilderFluent Order(string column, string direction = "desc")
+        {
+            _builder.Order = column + "," + direction;
+            return this;
         }
     }
 }
