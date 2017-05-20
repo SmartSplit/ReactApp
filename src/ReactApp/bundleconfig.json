@@ -9,17 +9,18 @@
   {
     "outputFileName": "wwwroot/js/bundle.js",
     "inputFiles": [
-      "wwwroot/plugins/slimScroll/jquery.slimscroll.js",
-      "wwwroot/plugins/select2/select2.js",
-      "wwwroot/plugins/morris/morris.js",
       "wwwroot/plugins/jQuery/jquery-2.2.3.min.js",
       "wwwroot/plugins/jQueryUI/jquery-ui.js",
+      "wwwroot/bootstrap/js/bootstrap.js",
+      "wwwroot/plugins/slimScroll/jquery.slimscroll.js",
+      "wwwroot/plugins/select2/select2.js",
+      "wwwroot/plugins/raphael.js",
+      "wwwroot/plugins/morris/morris.js",
       "wwwroot/plugins/fastclick/fastclick.js",
       "wwwroot/plugins/datepicker/bootstrap-datepicker.js",
       "wwwroot/plugins/bootstrap-slider/bootstrap-slider.js",
       "wwwroot/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js",
       "wwwroot/plugins/timepicker/bootstrap-timepicker.js",
-      "wwwroot/js/site.js",
       "wwwroot/js/demo.js",
       "wwwroot/js/app.js"
     ],
@@ -27,5 +28,12 @@
       "enabled": true,
       "renameLocals": true
     }
-  }
+  },
+  {
+    "outputFileName": "wwwroot/css/bundle.css",
+    "inputFiles": [
+      "wwwroot/css/AdminLTE.css",
+      "wwwroot/css/morris.css"
+    ]
+  },
 ]
