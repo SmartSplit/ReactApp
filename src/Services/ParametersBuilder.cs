@@ -31,7 +31,6 @@ namespace Services
 
         public override string ToString()
         {
-            Console.WriteLine(getUrl());
             return getUrl();
         }
 
