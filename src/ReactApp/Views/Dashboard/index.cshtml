@@ -116,12 +116,39 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Top 3 payments in last 30 days</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" id="refresh_morris_payments">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body chart-responsive">
+                <div class="chart" id="payments-chart" style="height: 300px;"></div>
+            </div>
+            <div class="overlay" id="overlay_morris_payments" style="display: none">
+                <i class="fa fa-refresh fa-spin"></i>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
 @section Scripts {
     <script>
 
         $(function () {
             loadMorrisSessions();
             loadMorrisUsers();
+            loadMorrisPayments();
         });
 
         $('body').on('click', '#refresh_morris_sessions', function () {
@@ -131,6 +158,24 @@
         $('body').on('click', '#refresh_morris_users', function () {
             loadMorrisUsers();
         });
+
+        $('body').on('click', '#refresh_morris_payments', function () {
+            loadMorrisPayments();
+        });
+
+        function loadMorrisPayments()
+        {
+            $.ajax({
+                url: '@Url.Action("LoadMorrisPayments", "Dashboard")',
+                beforeSend: () => { $("#overlay_morris_payments").show(); }
+            }).done((data) => {
+                morrisPayments(data);
+            }).always(() => {
+                $("#overlay_morris_payments").hide();
+            }).fail((error) => {
+                console.log(error);
+            });
+        }
 
         function loadMorrisSessions()
         {
@@ -152,7 +197,6 @@
                 url: '@Url.Action("LoadMorrisUsers", "Users")',
                 beforeSend: () => { $("#overlay_morris_users").show(); }
             }).done((data) => {
-                console.log(data);
                 morrisUsers(data);
             }).always(() => {
                 $("#overlay_morris_users").hide();
@@ -171,6 +215,7 @@
                 labels: ['Sessions started', 'Session ended'],
                 hideHover: 'auto',
                 lineColors: ['#a0d0e0', '#3c8dbc'],
+                resize: true,
             });
         }
 
@@ -185,6 +230,18 @@
                 labels: ['Registered'],
                 lineColors: ['#3c8dbc'],
                 hideHover: 'auto'
+            });
+        }
+
+        function morrisPayments(data) {
+            var donut = new Morris.Donut({
+                element: 'payments-chart',
+                resize: true,
+                colors: ["#3c8dbc", "#f56954", "#00a65a"],
+                data: data,
+                hideHover: 'auto',
+                xkey: 'xKey',
+                ykeys: ['yKey'],
             });
         }
     </script>
