@@ -15,11 +15,13 @@ namespace ReactApp
     public class SessionsController : Controller
     {
         IRepositoryService<Session> _sessionService;
+        IRepositoryService<Item> _itemsService;
         private readonly IMapper _mapper;
 
-        public SessionsController(IRepositoryService<Session> sessionService, IMapper mapper)
+        public SessionsController(IRepositoryService<Session> sessionService, IRepositoryService<Item> itemsService, IMapper mapper)
         {
             _sessionService = sessionService;
+            _itemsService = itemsService;
             _mapper = mapper;
         }
         // GET: /<controller>/
@@ -49,13 +51,25 @@ namespace ReactApp
             {
                 return new BadRequestResult();
             }
-
             var session = await _sessionService.GetById(id);
+
             var viewModel = _mapper.Map<Session, SessionViewModel>(session);
 
-            if (session == null)
+            try
+            {   
+                var items = await _itemsService.GetAllDetails("sessions", id);
+
+                if (session == null)
+                {
+                    return NotFound();
+                }
+            }            
+            catch (ApiCallException e)
             {
-                return NotFound();
+                ViewBag.Error = true;
+                ViewBag.ErrorMessage = e.Message;
+
+                return View();
             }
 
             return View(viewModel);

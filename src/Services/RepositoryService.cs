@@ -15,6 +15,8 @@ namespace Services
     {
         ParametersBuilderFluent GetBuilder();
         Task<List<T>> GetAll();
+
+        Task<List<T>> GetAllDetails(string column, string id);
         Task<T> GetById(string id);
         Task<ServiceResult> Create(T entity); 
         //IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
@@ -105,6 +107,15 @@ namespace Services
         {
             var responseObject = await _consumer.MakeGetCall(_resourcePath + "?" + _builder.ToString());
 
+            var users = JsonConvert.DeserializeObject<List<T>>((responseObject.data.ToString()));
+
+            return users;
+        }
+
+        public async virtual Task<List<T>> GetAllDetails(string column, string id) 
+        {
+            // var responseObject = await _consumer.MakeGetCall(_resourcePath + "/" + subPath +  "?" + _builder.ToString());
+            var responseObject = await _consumer.MakeGetCall(string.Format("{0}/{1}/{2}?{3}", column, id, _resourcePath, _builder.ToString()));
             var users = JsonConvert.DeserializeObject<List<T>>((responseObject.data.ToString()));
 
             return users;
