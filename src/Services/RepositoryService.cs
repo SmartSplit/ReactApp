@@ -97,6 +97,7 @@ namespace Services
 
         public ParametersBuilderFluent GetBuilder()
         {
+            _builder = new ParametersBuilder();
             return _builder.Set;
         }
 
