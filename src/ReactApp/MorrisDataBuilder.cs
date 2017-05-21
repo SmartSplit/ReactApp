@@ -38,12 +38,33 @@ namespace ReactApp
 
             return morrisData;
         }
+
+        public List<MorrisDonutViewModel> dataForPayments(List<Payment> payments)
+        {
+            List<MorrisDonutViewModel> morrisData = new List<MorrisDonutViewModel>();
+
+            foreach (var payment in payments)
+            {
+                MorrisDonutViewModel viewModel = new MorrisDonutViewModel();
+                viewModel.label = payment.User.Name + " (" + payment.Item.Name + ")";
+                viewModel.value = Convert.ToDouble(payment.Amount) / 100;
+                morrisData.Add(viewModel);
+            }
+
+            return morrisData;
+        }
     }
 
     public class MorrisCharViewModel
     {
         public string xKey { get; set; }
         public int yKey { get; set; }
+    }
+
+    public class MorrisDonutViewModel
+    {
+        public string label { get; set; }
+        public double value { get; set; }
     }
 
     public class MorrisSessionViewModel
