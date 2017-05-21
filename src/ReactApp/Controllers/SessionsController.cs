@@ -41,7 +41,26 @@ namespace ReactApp
                 ViewBag.Error = true;
                 return View();
             }
-
         }
+
+        public async Task<ActionResult> Details(string id)
+        {
+            if (id == "")
+            {
+                return new BadRequestResult();
+            }
+
+            var session = await _sessionService.GetById(id);
+            var viewModel = _mapper.Map<Session, SessionViewModel>(session);
+
+            if (session == null)
+            {
+                return NotFound();
+            }
+
+            return View(viewModel);
+        }
+
+
     }
 }
