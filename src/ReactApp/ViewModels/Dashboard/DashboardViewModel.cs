@@ -9,5 +9,7 @@ namespace ReactApp.ViewModels.Dashboard
     {
         public int UsersCount { get; set; }
         public int SessionsCount { get; set; }
+        public int PaymentsCount { get; set; }
+        public int ItemsCount { get; set; }
     }
 }

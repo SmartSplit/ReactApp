@@ -40,12 +40,32 @@ namespace ReactApp.Controllers
                 .Limit(1000);
 
             _usersService.GetBuilder()
-                .Filter("start_date", ">", DateTime.Today.AddDays(-30).ToString())
+                .Filter("created_at", ">", DateTime.Today.AddDays(-30).ToString())
+                .Limit(1000);
+
+            _paymentsService.GetBuilder()
+                .Filter("created_at", ">", DateTime.Today.AddDays(-30).ToString())
+                .Limit(1000);
+
+            _itemsService.GetBuilder()
+                .Filter("created_at", ">", DateTime.Today.AddDays(-30).ToString())
                 .Limit(1000);
 
             DashboardViewModel viewModel = new DashboardViewModel();
-            viewModel.UsersCount = (await _usersService.GetAll()).Count;
-            viewModel.SessionsCount = (await _sessionsService.GetAll()).Count;
+            try
+            {
+                viewModel.UsersCount = (await _usersService.GetAll()).Count;
+                viewModel.SessionsCount = (await _sessionsService.GetAll()).Count;
+                viewModel.PaymentsCount = (await _paymentsService.GetAll()).Count;
+                viewModel.ItemsCount = (await _itemsService.GetAll()).Count;
+            }
+            catch (ApiCallException e)
+            {
+                ViewBag.Error = true;
+                ViewBag.ErrorMessage = e.Message;
+
+                return View();
+            }
 
             return View(viewModel);
         }

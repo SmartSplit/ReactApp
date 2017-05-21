@@ -8,6 +8,7 @@ namespace Models
     public enum Currency
     {
         pln,
-        eur
+        eur,
+        usd
     }
 }
