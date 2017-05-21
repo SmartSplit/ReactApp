@@ -10,6 +10,7 @@ using Models;
 using Newtonsoft.Json.Linq;
 using ReactApp.ViewModels;
 using AutoMapper;
+using ReactApp.ViewModels.Dashboard;
 
 namespace ReactApp.Controllers
 {
@@ -141,5 +142,19 @@ namespace ReactApp.Controllers
 
             return View(viewModel);
         }
+
+        public async Task<IActionResult> LoadMorrisUsers()
+        {
+            _usersService.GetBuilder()
+                .Filter("start_date", ">", DateTime.Today.AddDays(-30).ToString())
+                .Limit(1000);
+
+            MorrisDataBuilder morris = new MorrisDataBuilder();
+            var users = (await _usersService.GetAll()).ToList();
+
+            return Json(morris.dataForUsers(users));
+        }
+
+
     }
 }

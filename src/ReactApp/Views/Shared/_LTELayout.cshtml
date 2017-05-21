@@ -13,10 +13,9 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="../../css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="../../css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="~/css/bundle.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -100,7 +99,7 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li><a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span> </a></li>
+                    <li><a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-dashboard"></i> <span>Dashboard</span> </a></li>
                     <li><a href="@Url.Action("Index", "Users")"><i class="fa fa-user"></i> <span>Users</span></a></li>
                 </ul>
             </section>
@@ -150,21 +149,8 @@
         <div class="control-sidebar-bg"></div>
     </div>
     <!-- ./wrapper -->
-    <!-- jQuery 2.2.3 -->
-    <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <!-- Bootstrap 3.3.6 -->
-    <script src="../../bootstrap/js/bootstrap.min.js"></script>
-    <!-- SlimScroll -->
-    <script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <!-- FastClick -->
-    <script src="../../plugins/fastclick/fastclick.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../../js/app.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="../../js/demo.js"></script>
+    <script src="../../js/bundle.min.js"></script>
+    <script src="../../js/site.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -51,7 +51,7 @@ namespace ReactApp
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
             services.AddMvc();
-
+            
             services.AddSingleton<IMapper>(sp => _mapperConfiguration.CreateMapper());
 
 
@@ -119,7 +119,7 @@ namespace ReactApp
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Dashboard}/{action=Index}/{id?}");
             });
         }
     }

@@ -1,29 +1,29 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Models
 {
-    public class User : IModel<string>
+    public class Session : IModel<string>
     {
         public string Id { get; set; }
 
-        [Required]
+        [JsonProperty("owner_id")]
+        public string OwnerId { get; set; }
+
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [Required]
-        [EmailAddress]
-        [JsonProperty("email")]
-        public string Email { get; set; }
-        
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
+        [JsonProperty("identifier")]
+        public string Identifier { get; set; }
 
-        public string ResourcePath { get; set; }
+        [JsonProperty("start_date")]
+        public DateTime StartDate { get; set; }
+
+        [JsonProperty("end_date")]
+        public DateTime? EndDate { get; set; }
 
         [JsonProperty("created_at")]
         public DateTime CreatedAt { get; set; }
@@ -34,9 +34,11 @@ namespace Models
         [JsonProperty("deleted_at")]
         public DateTime? DeletedAt { get; set; }
 
-        public User()
+        public string ResourcePath { get; set; }
+
+        public Session()
         {
-            this.ResourcePath = "users";
+            this.ResourcePath = "sessions";
         }
     }
 }
