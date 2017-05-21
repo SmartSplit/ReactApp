@@ -25,6 +25,9 @@ namespace Models
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("price")]
+        public int Price { get; set; }
+
         [JsonProperty("currency")]
         public Currency Currency { get; set; }
 

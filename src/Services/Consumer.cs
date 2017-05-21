@@ -90,8 +90,14 @@ namespace Services
                 HttpClient client = new HttpClient();
                 client = await EnsureToken(client);
 
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                };
+
                 var responseString = await client.GetStringAsync(_basePath + path);
-                var responseObject = JsonConvert.DeserializeObject<ApiResponse>(responseString);
+                var responseObject = JsonConvert.DeserializeObject<ApiResponse>(responseString, settings);
 
                 return responseObject;
             }

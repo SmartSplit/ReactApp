@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Models;
 using ReactApp.ViewModels;
+using ReactApp.ViewModels.Items;
 using ReactApp.ViewModels.Sessions;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ namespace ReactApp
             CreateMap<User, UserListViewModel>();
 
             CreateMap<Session, SessionViewModel>();
+
+            CreateMap<Item, ItemViewModel>();
         }
     }
 }

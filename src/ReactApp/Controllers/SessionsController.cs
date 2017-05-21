@@ -7,6 +7,7 @@ using Services;
 using Models;
 using AutoMapper;
 using ReactApp.ViewModels.Sessions;
+using ReactApp.ViewModels.Items;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -51,18 +52,26 @@ namespace ReactApp
             {
                 return new BadRequestResult();
             }
-            var session = await _sessionService.GetById(id);
 
-            var viewModel = _mapper.Map<Session, SessionViewModel>(session);
 
+            SessionDetailViewModel viewModel = new SessionDetailViewModel();
             try
             {   
                 var items = await _itemsService.GetAllDetails("sessions", id);
+                var session = await _sessionService.GetById(id);
+                var sessionViewModel = _mapper.Map<Session, SessionViewModel>(session);
+                ItemListViewModel itemsViewModel = new ItemListViewModel()
+                {
+                    Items = items.Select(i => _mapper.Map<Item, ItemViewModel>(i)).ToList()
+                };
 
                 if (session == null)
                 {
                     return NotFound();
                 }
+                viewModel.Session = sessionViewModel;
+                viewModel.ItemCount = items.Count();
+                viewModel.Items = itemsViewModel;
             }            
             catch (ApiCallException e)
             {
