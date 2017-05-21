@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Services;
+using Models;
+using AutoMapper;
+using ReactApp.ViewModels.Sessions;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,10 +14,34 @@ namespace ReactApp
 {
     public class SessionsController : Controller
     {
-        // GET: /<controller>/
-        public IActionResult Index()
+        IRepositoryService<Session> _sessionService;
+        private readonly IMapper _mapper;
+
+        public SessionsController(IRepositoryService<Session> sessionService, IMapper mapper)
         {
-            return View();
+            _sessionService = sessionService;
+            _mapper = mapper;
+        }
+        // GET: /<controller>/
+        public async Task<IActionResult> Index()
+        {
+            try
+            {
+                var sessions = await _sessionService.GetAll();
+
+                SessionListViewModel viewModel = new SessionListViewModel()
+                {
+                    Sessions = sessions.Select(s => _mapper.Map<Session, SessionViewModel>(s)).ToList()
+                };
+
+                return View(viewModel);
+            }
+            catch (ApiCallException e)
+            {
+                ViewBag.Error = true;
+                return View();
+            }
+
         }
     }
 }
