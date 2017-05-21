@@ -26,7 +26,7 @@ namespace Services
 
         public string getUrl()
         {
-            return PageParam() + LimitParam() + FiltersParam() + OrderParam();
+            return (PageParam() + LimitParam() + FiltersParam() + OrderParam()).Substring(1);
         }
 
         public override string ToString()
