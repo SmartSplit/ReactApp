@@ -31,9 +31,6 @@ namespace Models
         [JsonProperty("updated_at")]
         public DateTime UpdatedAt { get; set; }
 
-        [JsonProperty("deleted_at")]
-        public DateTime? DeletedAt { get; set; }
-
         public User()
         {
             this.ResourcePath = "users";

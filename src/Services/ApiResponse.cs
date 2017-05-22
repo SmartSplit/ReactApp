@@ -13,10 +13,8 @@ namespace Services
         public int last_page { get; set; }
         public string next_page_url { get; set; }
         public string prev_page_url { get; set; }
-        public int from { get; set; }
-        public int to { get; set; }
+        public int? from { get; set; }
+        public int? to { get; set; }
         public object data { get; set; }
-
-        public bool failed { get; set; }
     }
 }

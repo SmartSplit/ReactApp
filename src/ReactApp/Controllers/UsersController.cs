@@ -143,6 +143,13 @@ namespace ReactApp.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            User userToDelete = await _usersService.GetById(id);
+            return Json("succces");
+        }
+
         public async Task<IActionResult> LoadMorrisUsers()
         {
             _usersService.GetBuilder()
