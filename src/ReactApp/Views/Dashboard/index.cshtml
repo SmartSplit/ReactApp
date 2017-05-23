@@ -78,81 +78,19 @@ else
 
 <div class="row">
     <div class="col-md-6">
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">Sessions activities in last 30 days</h3>
-
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" id="refresh_morris_sessions">
-                        <i class="fa fa-refresh" aria-hidden="true"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="box-body chart-responsive">
-                <div class="alert alert-info" id="morris_sessions_error" style="display: none">Sorry, can't fetch data.</div>
-                <div class="chart" id="sessions-line-chart" style="height: 300px;"></div>
-            </div>
-            <div class="overlay" id="overlay_morris_sessions" style="display: none">
-                <i class="fa fa-refresh fa-spin"></i>
-            </div>
-            <!-- /.box-body -->
-        </div>
+        @Html.Partial("_morris_box", new ViewDataDictionary(this.ViewData) { { "name", "sessions"}, { "headerTitle", "Sessions activities in last 30 days" } })
     </div>
     <div class="col-md-6">
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">Users registrations in last 30 days</h3>
-
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" id="refresh_morris_users">
-                        <i class="fa fa-refresh" aria-hidden="true"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="box-body chart-responsive">
-                <div class="alert alert-info" id="morris_users_error" style="display: none">Sorry, can't fetch data.</div>
-                <div class="chart" id="users-line-chart" style="height: 300px;"></div>
-            </div>
-            <div class="overlay" id="overlay_morris_users" style="display: none">
-                <i class="fa fa-refresh fa-spin"></i>
-            </div>
-            <!-- /.box-body -->
-        </div>
+        @Html.Partial("_morris_box", new ViewDataDictionary(this.ViewData) { { "name", "users" }, { "headerTitle", "Users registrations in last 30 days" } })
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-6">
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">Top 3 payments in last 30 days</h3>
-
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" id="refresh_morris_payments">
-                        <i class="fa fa-refresh" aria-hidden="true"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="box-body chart-responsive">
-                <div class="alert alert-info" id="morris_payments_error" style="display: none">Sorry, can't fetch data.</div>
-                <div class="chart" id="payments-chart" style="height: 300px;"></div>
-            </div>
-            <div class="overlay" id="overlay_morris_payments" style="display: none">
-                <i class="fa fa-refresh fa-spin"></i>
-            </div>
-            <!-- /.box-body -->
-        </div>
+        @Html.Partial("_morris_box", new ViewDataDictionary(this.ViewData) { { "name", "payments" }, { "headerTitle", "Top 3 payments in last 30 days" } })
     </div>
 </div>
+
 @section Scripts {
     <script>
 
@@ -231,7 +169,7 @@ else
         function morrisSession(data)
         {
             var area = new Morris.Line({
-                element: 'sessions-line-chart',
+                element: 'sessions-chart',
                 data: data,
                 xkey: 'xKey',
                 ykeys: ['startedCount', 'endedCount'],
@@ -245,7 +183,7 @@ else
         function morrisUsers(data)
         {
             var line = new Morris.Line({
-                element: 'users-line-chart',
+                element: 'users-chart',
                 resize: true,
                 data: data,
                 xkey: 'xKey',
