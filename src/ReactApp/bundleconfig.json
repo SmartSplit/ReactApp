@@ -1,24 +1,40 @@
-﻿// Configure bundling and minification for the project.
-// More info at https://go.microsoft.com/fwlink/?LinkId=808241
-[
+﻿[
   {
     "outputFileName": "wwwroot/css/site.min.css",
-    // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
-      "wwwroot/css/site.css"
+      "wwwroot/css/site.css",
+      "wwwroot/**/*(*.css|!(*.min.css)"
     ]
   },
   {
-    "outputFileName": "wwwroot/js/site.min.js",
+    "outputFileName": "wwwroot/js/bundle.js",
     "inputFiles": [
-      "wwwroot/js/site.js"
+      "wwwroot/plugins/jQuery/jquery-2.2.3.min.js",
+      "wwwroot/plugins/jQueryUI/jquery-ui.js",
+      "wwwroot/bootstrap/js/bootstrap.js",
+      "wwwroot/plugins/slimScroll/jquery.slimscroll.js",
+      "wwwroot/plugins/select2/select2.js",
+      "wwwroot/plugins/raphael.js",
+      "wwwroot/plugins/morris/morris.js",
+      "wwwroot/plugins/fastclick/fastclick.js",
+      "wwwroot/plugins/datepicker/bootstrap-datepicker.js",
+      "wwwroot/plugins/bootstrap-slider/bootstrap-slider.js",
+      "wwwroot/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js",
+      "wwwroot/plugins/timepicker/bootstrap-timepicker.js",
+      "wwwroot/js/demo.js",
+      "wwwroot/js/app.js"
     ],
-    // Optionally specify minification options
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    // Optinally generate .map file
-    "sourceMap": false
-  }
+    }
+  },
+  {
+    "outputFileName": "wwwroot/css/bundle.css",
+    "inputFiles": [
+      "wwwroot/css/AdminLTE.css",
+      "wwwroot/css/skins/_all-skins.css",
+      "wwwroot/css/morris.css"
+    ]
+  },
 ]

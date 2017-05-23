@@ -9,13 +9,24 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using React.AspNet;
+using Autofac;
+using Services;
+using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 
 namespace ReactApp
 {
     public class Startup
     {
+        private MapperConfiguration _mapperConfiguration { get; set; }
+
         public Startup(IHostingEnvironment env)
         {
+            _mapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MapperProfile());
+            });
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -33,13 +44,33 @@ namespace ReactApp
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
             services.AddMvc();
+            
+            services.AddSingleton<IMapper>(sp => _mapperConfiguration.CreateMapper());
+
+
+            // Create the container builder.
+            var builder = new ContainerBuilder();
+
+            // Register dependencies, populate the services from
+            // the collection, and build the container. If you want
+            // to dispose of the container at the end of the app,
+            // be sure to keep a reference to it as a property or field.
+            //builder.RegisterType<Consumer>().As<IConsumer>()..SingleInstance();
+            builder.Register(c => Consumer.Create().Result).As<IConsumer>().SingleInstance();
+            builder.RegisterType<Consumer>().PropertiesAutowired();
+            builder.RegisterModule(new ServicesAutofacModule());
+            builder.Populate(services);
+            var container = builder.Build();
+
+            // Create the IServiceProvider based on the container.
+            return new AutofacServiceProvider(container);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,7 +119,7 @@ namespace ReactApp
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Dashboard}/{action=Index}/{id?}");
             });
         }
     }

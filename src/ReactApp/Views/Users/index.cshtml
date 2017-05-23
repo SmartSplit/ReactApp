@@ -1,0 +1,51 @@
+﻿@model ReactApp.ViewModels.UserListViewModel
+
+@{
+    Layout = "_LTELayout";
+    ViewBag.Title = "Users";
+}
+
+<div class="top-actions">
+    <a href="@Url.Action("Create")" class="btn btn-flat btn-success"><i class="fa fa-plus"></i>Add user</a>
+</div>
+@if (ViewBag.Error != true)
+{
+<body>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayName("Name")</th>
+                <th>@Html.DisplayName("Email")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Users)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                    <td>
+                        <div class="btn-group">
+
+                            <a type="button" class="btn btn-success" href="@Url.Action("Details", new { id = item.Id })">Show</a>
+                            <a type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="@Url.Action("Edit", new { id = item.Id })">Edit</a></li>
+                                <li><a href="#">Delete</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+}
+else
+{
+    <div class="alert alert-info">Sorry, can't fetch data.</div>
+}
+
