@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ReactApp.Filters
@@ -17,8 +19,16 @@ namespace ReactApp.Filters
         {
             public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
             {
-                var authorization = context.HttpContext.Request.Headers.["Authorization"];
-                Console.WriteLine("API AUTHORIZED FILTER");
+                var authorization = context.HttpContext.Request.Headers["Authorization"];
+
+                var user = context.HttpContext.User as User;
+
+                if (user == null)
+                {
+                    context.Result = new RedirectResult("login");
+                    return;
+                }
+
                 await next();
             }
         }

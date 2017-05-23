@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace Models
 {
-    public class User : IModel<string>
+    public class User : ClaimsPrincipal, IModel<string>
     {
         public string Id { get; set; }
 
