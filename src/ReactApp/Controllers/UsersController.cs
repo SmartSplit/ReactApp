@@ -11,9 +11,11 @@ using Newtonsoft.Json.Linq;
 using ReactApp.ViewModels;
 using AutoMapper;
 using ReactApp.ViewModels.Dashboard;
+using ReactApp.Filters;
 
 namespace ReactApp.Controllers
 {
+    [ApiAuthorized]
     public class UsersController : Controller
     {
         IRepositoryService<User> _usersService;
