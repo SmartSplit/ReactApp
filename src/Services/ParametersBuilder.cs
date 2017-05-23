@@ -26,7 +26,8 @@ namespace Services
 
         public string getUrl()
         {
-            return (PageParam() + LimitParam() + FiltersParam() + OrderParam()).Substring(1);
+            string url = PageParam() + LimitParam() + FiltersParam() + OrderParam();
+            return url != "" ? url.Substring(1) : "";
         }
 
         public override string ToString()
@@ -46,7 +47,7 @@ namespace Services
 
         public string FiltersParam()
         {
-            if (Filters != null)
+            if (Filters != null && Filters.Count != 0)
             {
                 string filtersString = "&filters=";
                 foreach (var item in Filters)
