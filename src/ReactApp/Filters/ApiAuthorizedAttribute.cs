@@ -25,7 +25,8 @@ namespace ReactApp.Filters
 
                 if (user == null)
                 {
-                    context.Result = new RedirectResult("login");
+                    //todo generate url
+                    context.Result = new RedirectResult("Account/Login");
                     return;
                 }
 
