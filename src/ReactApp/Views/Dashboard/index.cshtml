@@ -34,7 +34,7 @@
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="@Url.Action("Index", "Sessions")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -260,7 +260,6 @@ else
             var donut = new Morris.Donut({
                 element: 'payments-chart',
                 resize: true,
-                colors: ["#3c8dbc", "#f56954", "#00a65a"],
                 data: data,
                 hideHover: 'auto',
                 xkey: 'xKey',
