@@ -17,17 +17,26 @@ namespace ReactApp
     {
         IRepositoryService<Session> _sessionService;
         IRepositoryService<Item> _itemsService;
+        IRepositoryService<Payment> _paymentsService;
         private readonly IMapper _mapper;
 
-        public SessionsController(IRepositoryService<Session> sessionService, IRepositoryService<Item> itemsService, IMapper mapper)
+        public SessionsController
+            (
+            IRepositoryService<Session> sessionService, 
+            IRepositoryService<Item> itemsService,
+            IRepositoryService<Payment> paymenstService,
+            IMapper mapper
+            )
         {
             _sessionService = sessionService;
             _itemsService = itemsService;
+            _paymentsService = paymenstService;
             _mapper = mapper;
         }
         // GET: /<controller>/
         public async Task<IActionResult> Index()
         {
+            _sessionService.GetBuilder().Limit(1000);
             try
             {
                 var sessions = await _sessionService.GetAll();
@@ -58,8 +67,10 @@ namespace ReactApp
             try
             {   
                 var items = await _itemsService.GetAllDetails("sessions", id);
-                var session = await _sessionService.GetById(id);
+                var session = await _sessionService.GetById(id);                
+
                 var sessionViewModel = _mapper.Map<Session, SessionViewModel>(session);
+                
                 ItemListViewModel itemsViewModel = new ItemListViewModel()
                 {
                     Items = items.Select(i => _mapper.Map<Item, ItemViewModel>(i)).ToList()
@@ -69,9 +80,11 @@ namespace ReactApp
                 {
                     return NotFound();
                 }
+
                 viewModel.Session = sessionViewModel;
                 viewModel.ItemCount = items.Count();
                 viewModel.Items = itemsViewModel;
+                viewModel.PaymentMade = await GetPaymentsMade(id);
             }            
             catch (ApiCallException e)
             {
@@ -82,6 +95,14 @@ namespace ReactApp
             }
 
             return View(viewModel);
+        }
+
+        private async Task<double> GetPaymentsMade(string id)
+        {
+            var payment = await _paymentsService.GetAllDetails("sessions", id);
+            double ammount = payment.Sum(p => p.Amount);
+            ammount /= 100;
+            return ammount;
         }
 
 
