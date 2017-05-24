@@ -85,6 +85,7 @@ namespace ReactApp
                 viewModel.ItemCount = items.Count();
                 viewModel.Items = itemsViewModel;
                 viewModel.PaymentMade = await GetPaymentsMade(id);
+                viewModel.PurchasesMade = itemsViewModel.Items.Sum(i => i.Price);
             }            
             catch (ApiCallException e)
             {
@@ -100,9 +101,8 @@ namespace ReactApp
         private async Task<double> GetPaymentsMade(string id)
         {
             var payment = await _paymentsService.GetAllDetails("sessions", id);
-            double ammount = payment.Sum(p => p.Amount);
-            ammount /= 100;
-            return ammount;
+            payment.Sum(p => p.Amount);
+            return payment.Sum(p => p.Amount) / 100.0;
         }
 
 

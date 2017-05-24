@@ -10,6 +10,7 @@ namespace ReactApp.ViewModels.Sessions
     {
         public int ItemCount { get; set; }
         public double PaymentMade { get; set; }
+        public double PurchasesMade { get; set; }
         public SessionViewModel Session { get; set; }
         public ItemListViewModel Items { get; set; }
 

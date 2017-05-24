@@ -23,7 +23,8 @@ namespace ReactApp
 
             CreateMap<Session, SessionViewModel>();
 
-            CreateMap<Item, ItemViewModel>();
+            CreateMap<Item, ItemViewModel>()
+                .ForMember(viewModel => viewModel.Price, opt => opt.ResolveUsing<PriceResolver>());
 
             CreateMap<Payment, PaymentViewModel>();
         }

@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
+                    <span class="info-box-icon bg-aqua"><i class="fa fa-shopping-cart"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Items</span>
@@ -22,7 +22,7 @@
 
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
+                    <span class="info-box-icon bg-green"><i class="fa fa-arrow-circle-o-up"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Payments</span>
@@ -32,11 +32,24 @@
                 </div>
                 <!-- /.info-box -->
             </div>
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="fa fa-arrow-circle-o-down"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Purchases</span>
+                        <span class="info-box-number">@Model.PurchasesMade</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
         </div>
 
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="box box-primary">
                     <div class="box-header">
                         <h3 class="box-title">Szczegóły</h3>
@@ -56,29 +69,37 @@
                     </div><!-- /.box-body -->
                 </div>
             </div><!-- /.col -->
+            
         </div>
 
         @if (Model.ItemCount > 0)
         {
             <div class="row">
-                <div class="col-md-6">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>@Html.DisplayName("Name")</th>
-                                <th>@Html.DisplayName("Price")</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.Items.Items)
-                            {
+                <div class="col-md-4">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title">Przedmioty</h3>
+                        </div>
+                        <table class="table table-bordered table-striped">
+                            <thead>
                                 <tr>
-                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                                    <th>@Html.DisplayName("Name")</th>
+                                    <th>@Html.DisplayName("Price")</th>
+                                    <th>@Html.DisplayName("Split type")</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Items.Items)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Price) @Html.DisplayFor(modelItem => item.Currency)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.SplitType)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         }
