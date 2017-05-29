@@ -8,11 +8,13 @@ using Models;
 using AutoMapper;
 using ReactApp.ViewModels.Sessions;
 using ReactApp.ViewModels.Items;
+using ReactApp.Filters;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ReactApp
 {
+    [ApiAuthorized]
     public class SessionsController : Controller
     {
         IRepositoryService<Session> _sessionService;

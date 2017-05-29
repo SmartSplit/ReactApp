@@ -1,5 +1,8 @@
-﻿@{ 
+﻿@model ReactApp.ViewModels.UserViewModel
+
+@{ 
     Layout = null;
+    ViewBag.Title = "Login";
 }
 
 <head>
@@ -30,18 +33,19 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="../../index2.html"><b>Admin</b>LTE</a>
+            <a href="@Url.Action("Index", "Dashboard")"><b>Smart</b>Split</a>
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
             <p class="login-box-msg">Sign in to start</p>
-            <form action="../../index2.html" method="post">
+            @using (Html.BeginForm())
+            {
                 <div class="form-group has-feedback">
-                    <input class="form-control" placeholder="Email" type="email">
+                    <input asp-for="Email" class="form-control" placeholder="Email"/>
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
-                    <input class="form-control" placeholder="Password" type="password">
+                    <input asp-for="Password" class="form-control" placeholder="Password" type="password">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
                 <div class="row">
@@ -50,7 +54,7 @@
                     </div>
                     <!-- /.col -->
                 </div>
-            </form>
+            }
             <a href="register.html" class="text-center">Register a new membership</a>
         </div>
         <!-- /.login-box-body -->

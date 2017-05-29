@@ -29,6 +29,7 @@ namespace ReactApp.Controllers
 
         public async Task<IActionResult> Index()
         {
+            ViewBag.User = _usersService.GetLoggedUser();
             try
             {
                 var users = await _usersService.GetAll();

@@ -49,11 +49,13 @@ namespace ReactApp
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IConsumer>(c => Consumer.Create().Result);
             services.AddReact();
             services.AddMvc();
+            services.AddSession();
+
             
             services.AddSingleton<IMapper>(sp => _mapperConfiguration.CreateMapper());
-
 
             // Create the container builder.
             var builder = new ContainerBuilder();
@@ -92,6 +94,8 @@ namespace ReactApp
             }
 
             app.UseApplicationInsightsExceptionTelemetry();
+            AppHttpContext.Services = app.ApplicationServices;
+
 
             // Initialise ReactJS.NET. Must be before static files.
             app.UseReact(config =>
@@ -102,7 +106,7 @@ namespace ReactApp
                 // See http://reactjs.net/ for more information. Example:
                 //config
                 //  .AddScript("~/Scripts/First.jsx")
-                //  .AddScript("~/Scripts/Second.jsx");
+                //  .AddScript("~/Scripts/Second.jsx"); 
 
                 // If you use an external build too (for example, Babel, Webpack,
                 // Browserify or Gulp), you can improve performance by disabling
@@ -114,7 +118,7 @@ namespace ReactApp
             });
 
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

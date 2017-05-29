@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Services
 {
@@ -22,15 +24,21 @@ namespace Services
         private string _username;
         private string _password;
         private string _version;
+        private IAuthenticable _user;
 
         private static IConfigurationRoot Configuration { get; set; }
 
         public async static Task<Consumer> Create()
         {
             Consumer consumer = new Consumer();
+
             try
             {
-                consumer.token = await consumer.GetAccessToken();
+                if(consumer._user != null)
+                {
+                }
+                consumer.token = await consumer.GetUserAccessToken();
+                await consumer.FetchCurrentUser();
             }
             catch (Exception e)
             {
@@ -58,19 +66,32 @@ namespace Services
             _password = Configuration["password"];
         }
         
-        public async Task<JWT> GetAccessToken()
+        public async Task<JWT> GetUserAccessToken(IAuthenticable attemptingUser = null)
         {
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var postData = new {
+                var postData = new
+                {
                     grant_type = "password",
                     client_id = _clientId,
                     client_secret = _clientSecret,
-                    username = _username,
-                    password = _password
+                    username = attemptingUser.Email,
+                    password = attemptingUser.Password
                 };
+
+                if (attemptingUser == null)
+                {
+                    postData = new
+                    {
+                        grant_type = "password",
+                        client_id = _clientId,
+                        client_secret = _clientSecret,
+                        username = _user.Email,
+                        password = _user.Password
+                    };
+                }
 
                 string stringData = JsonConvert.SerializeObject(postData);
                 var contentData = new StringContent(stringData, Encoding.UTF8, "application/json");
@@ -149,7 +170,7 @@ namespace Services
             {
                 try
                 {
-                    this.token = await GetAccessToken();
+                    this.token = await GetUserAccessToken();
                 }
                 catch (Exception e)
                 {
@@ -160,6 +181,59 @@ namespace Services
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token.access_token);
 
             return client;
+        }
+
+        public async Task<bool> FetchCurrentUser()
+        {
+            try
+            {
+                _user = await MakeGetCallForAuthenticableObject("users/verify_credentials");
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new ApiCallException("Error fetching user");
+            }
+        }
+
+        public IAuthenticable GetUser()
+        {
+            return _user;
+        }
+
+        public void SetToken(JWT token)
+        {
+            this.token = token;
+        }
+
+        private async Task<User> MakeGetCallForAuthenticableObject(string path)
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                client = await EnsureToken(client);
+
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                };
+
+                var responseString = await client.GetStringAsync(_basePath + path);
+                var responseObject = JsonConvert.DeserializeObject<User>(responseString, settings);
+
+                return responseObject;
+            }
+            catch (Exception e)
+            {
+                throw new ApiCallException("Error making api call at " + path);
+            }
+        }
+
+        public void Logout()
+        {
+            this._user = null;
         }
     }
 }

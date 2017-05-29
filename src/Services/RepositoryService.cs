@@ -22,6 +22,9 @@ namespace Services
         //IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
         //ServiceResult Delete(T entity);
         Task<ServiceResult> Edit(T entity);
+        Task<ServiceResult> Login(IAuthenticable entity);
+        ServiceResult Logout();
+        IAuthenticable GetLoggedUser();
         //ServiceResult Save();
 
     }
@@ -195,21 +198,29 @@ namespace Services
             return result;
         }
 
-        //public virtual ServiceResult Save()
-        //{
-        //    ServiceResult result = new ServiceResult();
-        //    try
-        //    {
-        //        ((DbContext)_context).SaveChanges();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        result.Result = ServiceResultStatus.Error;
-        //        result.Messages.Add(e.Message);
-        //    }
+        public async virtual Task<ServiceResult> Login(IAuthenticable entity)
+        {
+            ServiceResult result = new ServiceResult();
 
-        //    return result;
+            var token = await _consumer.GetUserAccessToken(entity);
+            _consumer.SetToken(token);
 
-        //}
+            await _consumer.FetchCurrentUser();
+
+            return result;
+        }
+
+        public IAuthenticable GetLoggedUser()
+        {
+            return _consumer.GetUser();
+        }
+
+        public ServiceResult Logout()
+        {
+            var result = new ServiceResult();
+            _consumer.Logout();
+
+            return result;
+        }
     }
 }

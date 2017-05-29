@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace Models
 {
-    public class User : ClaimsPrincipal, IModel<string>
+    public class User : ClaimsPrincipal, IModel<string>, IAuthenticable
     {
         public string Id { get; set; }
 
