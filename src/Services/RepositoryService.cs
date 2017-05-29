@@ -203,9 +203,17 @@ namespace Services
             ServiceResult result = new ServiceResult();
 
             var token = await _consumer.GetUserAccessToken(entity);
-            _consumer.SetToken(token);
 
-            await _consumer.FetchCurrentUser();
+            if (token.access_token != null)
+            {
+                _consumer.SetToken(token);
+                await _consumer.FetchCurrentUser();
+            }
+            else
+            {
+                result.Result = ServiceResultStatus.Warning;
+                result.Messages.Add("Invalid email or password.");
+            }
 
             return result;
         }

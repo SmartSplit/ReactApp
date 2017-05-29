@@ -42,7 +42,13 @@ namespace ReactApp.Controllers
 
             user = _mapper.Map<UserViewModel, User>(vm, user);
 
-            await _usersService.Login(user);
+            var result = await _usersService.Login(user);
+
+            if(result.Result == ServiceResultStatus.Warning)
+            {
+                ViewBag.Errors = result.Messages;
+                return View(vm);
+            }
 
             //HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user));
             

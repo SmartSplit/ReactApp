@@ -38,6 +38,17 @@
         <!-- /.login-logo -->
         <div class="login-box-body">
             <p class="login-box-msg">Sign in to start</p>
+            @if (ViewBag.Errors != null)
+            {
+                <div class="flash" style="margin-bottom: 20px;">
+                    <div class="callout callout-danger" style="margin-bottom: 0!important;">
+                        @foreach (var error in ViewBag.Errors)
+                        {
+                            <span>@error</span> <br />
+                        }
+                    </div>
+                </div>
+            }
             @using (Html.BeginForm())
             {
                 <div class="form-group has-feedback">
