@@ -15,6 +15,7 @@ namespace Services
         Task<bool> FetchCurrentUser();
         IAuthenticable GetUser();
         Task<JWT> GetUserAccessToken(IAuthenticable attemptingUser = null);
+        Task<JWT> GetClientAccessToken();
         void SetToken(JWT token);
         void Logout();
     }

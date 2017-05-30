@@ -25,6 +25,7 @@ namespace Services
         Task<ServiceResult> Login(IAuthenticable entity);
         ServiceResult Logout();
         IAuthenticable GetLoggedUser();
+        Task<ServiceResult> Register(IAuthenticable user);
         //ServiceResult Save();
 
     }
@@ -227,6 +228,35 @@ namespace Services
         {
             var result = new ServiceResult();
             _consumer.Logout();
+
+            return result;
+        }
+
+        public async Task<ServiceResult> Register(IAuthenticable entity)
+        {
+            var result = new ServiceResult();
+
+            try
+            {
+                var stringContent = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+
+                //get special token first
+                var token = await _consumer.GetClientAccessToken();
+                _consumer.SetToken(token);
+
+                var responseObject = await _consumer.MakePostCall(_resourcePath, stringContent);
+
+                if (!responseObject.IsSuccessStatusCode)
+                {
+                    var responseContent = await responseObject.Content.ReadAsStringAsync();
+                    result = AddErrors(result, responseContent);
+                }
+            }
+            catch (Exception e)
+            {
+                result.Result = ServiceResultStatus.Error;
+                result.Messages.Add(e.Message);
+            }
 
             return result;
         }

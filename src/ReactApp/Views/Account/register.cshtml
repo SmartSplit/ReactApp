@@ -2,7 +2,7 @@
 
 @{ 
     Layout = null;
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Register";
 }
 
 <head>
@@ -29,15 +29,14 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
-<body class="hold-transition login-page">
-    <div class="login-box">
-        <div class="login-logo">
+<body class="hold-transition register-page">
+    <div class="register-box">
+        <div class="register-logo">
             <a href="@Url.Action("Index", "Dashboard")"><b>Smart</b>Split</a>
         </div>
-        <!-- /.login-logo -->
-        <div class="login-box-body">
-            <p class="login-box-msg">Sign in to start</p>
+
+        <div class="register-box-body">
+            <p class="login-box-msg">Register a new membership</p>
             @if (ViewBag.Errors != null)
             {
                 <div class="flash" style="margin-bottom: 20px;">
@@ -52,29 +51,42 @@
             @using (Html.BeginForm())
             {
                 <div class="form-group has-feedback">
-                    <input asp-for="Email" class="form-control" placeholder="Email"/>
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <input asp-for="Name" type="text" class="form-control" placeholder="Name">
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group has-feedback">
-                    <input asp-for="Password" class="form-control" placeholder="Password" type="password">
+                    <input asp-for="Email" type="email" class="form-control" placeholder="Email">
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input asp-for="PasswordConfirmation" type="password" class="form-control" placeholder="Retype password">
+                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                    <span asp-validation-for="PasswordConfirmation" class="text-danger"></span>
                 </div>
                 <div class="row">
+                    <!-- /.col -->
                     <div class="col-xs-12">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
                     </div>
                     <!-- /.col -->
                 </div>
             }
-            <a href="@Url.Action("Register", "Account")" class="text-center">Register a new membership</a>
+            <a href="@Url.Action("Login", "Account")" class="text-center">I already have a membership</a>
         </div>
-        <!-- /.login-box-body -->
+        <!-- /.form-box -->
     </div>
-    <!-- /.login-box -->
-    <!-- jQuery 3.1.1 -->
-    <script src="../../js/bundle.min.js"></script>
-    <script src="../../js/site.js"></script>
+    <!-- /.register-box -->
+    <!-- jQuery 2.2.0 -->
+    <script src="../../plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <!-- Bootstrap 3.3.6 -->
+    <script src="../../bootstrap/js/bootstrap.min.js"></script>
     <script>
     </script>
-
 </body>

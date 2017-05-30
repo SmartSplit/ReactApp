@@ -62,5 +62,37 @@ namespace ReactApp.Controllers
 
             return RedirectToAction("Login");
         }
+
+        public IActionResult Register()
+        {
+            UserViewModel vm = new UserViewModel();
+            
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(UserViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new User();
+
+                _mapper.Map<UserViewModel, User>(vm, user);
+                var result = await _usersService.Register(user);
+
+                if (result.Result == ServiceResultStatus.Warning)
+                {
+                    ViewBag.Errors = result.Messages;
+                }
+
+                if (result.Result == ServiceResultStatus.Success)
+                {
+                    return RedirectToAction("Index", "Dashboard");
+                }
+            }
+
+            return View(vm);
+        }
     }
 }

@@ -104,6 +104,30 @@ namespace Services
             }
         }
 
+        public async Task<JWT> GetClientAccessToken()
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var postData = new
+                {
+                    grant_type = "client_credentials",
+                    client_id = _clientId,
+                    client_secret = _clientSecret,
+                };
+
+                string stringData = JsonConvert.SerializeObject(postData);
+                var contentData = new StringContent(stringData, Encoding.UTF8, "application/json");
+
+
+                var response = await client.PostAsync(_servicePath + _tokenGenerationPath, contentData);
+                var contents = await response.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<JWT>(contents);
+            }
+        }
+
         public async Task<ApiResponse> MakeGetCall(string path)
         {
             try

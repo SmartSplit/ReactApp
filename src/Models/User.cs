@@ -22,6 +22,7 @@ namespace Models
         public string Email { get; set; }
         
         [DataType(DataType.Password)]
+        [JsonProperty("password")]
         public string Password { get; set; }
 
         public string ResourcePath { get; set; }
