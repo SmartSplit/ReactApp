@@ -53,6 +53,21 @@ namespace ReactApp
 
             return morrisData;
         }
+
+        public List<MorrisDonutViewModel> dataForUserPayments(Dictionary<User, double> userPayments)
+        {
+            List<MorrisDonutViewModel> morrisData = new List<MorrisDonutViewModel>();
+
+            foreach (var payment in userPayments)
+            {
+                MorrisDonutViewModel viewModel = new MorrisDonutViewModel();
+                viewModel.label = payment.Key.Name;
+                viewModel.value = payment.Value;
+                morrisData.Add(viewModel);
+            }
+
+            return morrisData;
+        }
     }
 
     public class MorrisCharViewModel
