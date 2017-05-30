@@ -19,17 +19,25 @@ namespace ReactApp
     {
         IRepositoryService<Session> _sessionService;
         IRepositoryService<Item> _itemsService;
+        IRepositoryService<User> _usersService;
         private readonly IMapper _mapper;
 
-        public SessionsController(IRepositoryService<Session> sessionService, IRepositoryService<Item> itemsService, IMapper mapper)
+        public SessionsController(
+            IRepositoryService<Session> sessionService, 
+            IRepositoryService<Item> itemsService,
+            IRepositoryService<User> usersService, 
+            IMapper mapper
+            )
         {
             _sessionService = sessionService;
             _itemsService = itemsService;
+            _usersService = usersService;
             _mapper = mapper;
         }
         // GET: /<controller>/
         public async Task<IActionResult> Index()
         {
+            ViewBag.User = _usersService.GetLoggedUser();
             try
             {
                 var sessions = await _sessionService.GetAll();
@@ -50,6 +58,9 @@ namespace ReactApp
 
         public async Task<ActionResult> Details(string id)
         {
+            ViewBag.User = _usersService.GetLoggedUser();
+
+
             if (id == "")
             {
                 return new BadRequestResult();

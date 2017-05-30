@@ -37,6 +37,8 @@ namespace ReactApp.Controllers
 
         public async Task<IActionResult> Index(User user)
         {
+            ViewBag.User = _usersService.GetLoggedUser();
+
             _sessionsService.GetBuilder()
                 .Filter("start_date", ">", DateTime.Today.AddDays(-30).ToString())
                 .Limit(1000);

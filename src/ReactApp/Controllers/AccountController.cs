@@ -88,6 +88,8 @@ namespace ReactApp.Controllers
 
                 if (result.Result == ServiceResultStatus.Success)
                 {
+                    await _usersService.Login(user);
+
                     return RedirectToAction("Index", "Dashboard");
                 }
             }
