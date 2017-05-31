@@ -3,6 +3,7 @@
 
   "dependencies": {
     "Autofac": "4.5.0",
+    "Microsoft.AspNetCore.Http.Abstractions": "1.1.0",
     "Microsoft.Extensions.Configuration": "1.0.0",
     "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
     "Microsoft.Extensions.Configuration.Json": "1.0.0",

@@ -8,11 +8,13 @@ using Models;
 using AutoMapper;
 using ReactApp.ViewModels.Sessions;
 using ReactApp.ViewModels.Items;
+using ReactApp.Filters;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ReactApp
 {
+    [ApiAuthorized]
     public class SessionsController : Controller
     {
         IRepositoryService<Session> _sessionService;
@@ -40,6 +42,7 @@ namespace ReactApp
         public async Task<IActionResult> Index()
         {
             _sessionService.GetBuilder().Limit(1000);
+            ViewBag.User = _usersService.GetLoggedUser();
             try
             {
                 var sessions = await _sessionService.GetAll();
@@ -60,6 +63,9 @@ namespace ReactApp
 
         public async Task<ActionResult> Details(string id)
         {
+            ViewBag.User = _usersService.GetLoggedUser();
+
+
             if (id == "")
             {
                 return new BadRequestResult();

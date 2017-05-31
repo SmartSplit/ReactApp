@@ -22,6 +22,10 @@ namespace Services
         //IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
         //ServiceResult Delete(T entity);
         Task<ServiceResult> Edit(T entity);
+        Task<ServiceResult> Login(IAuthenticable entity);
+        ServiceResult Logout();
+        IAuthenticable GetLoggedUser();
+        Task<ServiceResult> Register(IAuthenticable user);
         //ServiceResult Save();
 
     }
@@ -195,21 +199,66 @@ namespace Services
             return result;
         }
 
-        //public virtual ServiceResult Save()
-        //{
-        //    ServiceResult result = new ServiceResult();
-        //    try
-        //    {
-        //        ((DbContext)_context).SaveChanges();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        result.Result = ServiceResultStatus.Error;
-        //        result.Messages.Add(e.Message);
-        //    }
+        public async virtual Task<ServiceResult> Login(IAuthenticable entity)
+        {
+            ServiceResult result = new ServiceResult();
 
-        //    return result;
+            var token = await _consumer.GetUserAccessToken(entity);
 
-        //}
+            if (token.access_token != null)
+            {
+                _consumer.SetToken(token);
+                await _consumer.FetchCurrentUser();
+            }
+            else
+            {
+                result.Result = ServiceResultStatus.Warning;
+                result.Messages.Add("Invalid email or password.");
+            }
+
+            return result;
+        }
+
+        public IAuthenticable GetLoggedUser()
+        {
+            return _consumer.GetUser();
+        }
+
+        public ServiceResult Logout()
+        {
+            var result = new ServiceResult();
+            _consumer.Logout();
+
+            return result;
+        }
+
+        public async Task<ServiceResult> Register(IAuthenticable entity)
+        {
+            var result = new ServiceResult();
+
+            try
+            {
+                var stringContent = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+
+                //get special token first
+                var token = await _consumer.GetClientAccessToken();
+                _consumer.SetToken(token);
+
+                var responseObject = await _consumer.MakePostCall(_resourcePath, stringContent);
+
+                if (!responseObject.IsSuccessStatusCode)
+                {
+                    var responseContent = await responseObject.Content.ReadAsStringAsync();
+                    result = AddErrors(result, responseContent);
+                }
+            }
+            catch (Exception e)
+            {
+                result.Result = ServiceResultStatus.Error;
+                result.Messages.Add(e.Message);
+            }
+
+            return result;
+        }
     }
 }
