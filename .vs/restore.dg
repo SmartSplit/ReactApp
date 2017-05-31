@@ -1,6 +1,7 @@
-#:C:\Users\Szymon\Source\Repos\ReactApp\src\Services\Services.xproj
-C:\Users\Szymon\Source\Repos\ReactApp\src\Services\Services.xproj|C:\Users\Szymon\Source\Repos\ReactApp\src\Models\Models.xproj
-#:C:\Users\Szymon\Source\Repos\ReactApp\src\ReactApp\ReactApp.xproj
-C:\Users\Szymon\Source\Repos\ReactApp\src\ReactApp\ReactApp.xproj|C:\Users\Szymon\Source\Repos\ReactApp\src\Models\Models.xproj
-C:\Users\Szymon\Source\Repos\ReactApp\src\ReactApp\ReactApp.xproj|C:\Users\Szymon\Source\Repos\ReactApp\src\Services\Services.xproj
-C:\Users\Szymon\Source\Repos\ReactApp\src\Services\Services.xproj|C:\Users\Szymon\Source\Repos\ReactApp\src\Models\Models.xproj
+#:E:\cproject\mvc_falat\src\Models\Models.xproj
+#:E:\cproject\mvc_falat\src\Services\Services.xproj
+E:\cproject\mvc_falat\src\Services\Services.xproj|E:\cproject\mvc_falat\src\Models\Models.xproj
+#:E:\cproject\mvc_falat\src\ReactApp\ReactApp.xproj
+E:\cproject\mvc_falat\src\ReactApp\ReactApp.xproj|E:\cproject\mvc_falat\src\Models\Models.xproj
+E:\cproject\mvc_falat\src\ReactApp\ReactApp.xproj|E:\cproject\mvc_falat\src\Services\Services.xproj
+E:\cproject\mvc_falat\src\Services\Services.xproj|E:\cproject\mvc_falat\src\Models\Models.xproj

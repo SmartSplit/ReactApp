@@ -41,8 +41,9 @@ namespace ReactApp
         // GET: /<controller>/
         public async Task<IActionResult> Index()
         {
-            _sessionService.GetBuilder().Limit(1000);
+            
             ViewBag.User = _usersService.GetLoggedUser();
+            _sessionService.GetBuilder().Limit(1000).Filter("owner_id", "=", ViewBag.User.Id);
             try
             {
                 var sessions = await _sessionService.GetAll();
