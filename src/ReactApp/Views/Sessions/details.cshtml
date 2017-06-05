@@ -7,25 +7,47 @@
 @if (ViewBag.Error != true)
 {
         <div class="row">
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-aqua">
-                    <div class="inner">
-                        <h3>@Model.ItemCount</h3>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="fa fa-shopping-cart"></i></span>
 
-                        <p>ItemCount</p>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Items</span>
+                        <span class="info-box-number">@Model.ItemCount</span>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-green"><i class="fa fa-arrow-circle-o-up"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Payments</span>
+                            <span class="info-box-number">@Model.PaymentMade</span>
+                        </div>
+                        <!-- /.info-box-content -->
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <!-- /.info-box -->
+                </div>
+
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-red"><i class="fa fa-arrow-circle-o-down"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Purchases</span>
+                            <span class="info-box-number">@Model.PurchasesMade</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
                 </div>
             </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="box box-primary">
                     <div class="box-header">
                         <h3 class="box-title">Szczegóły</h3>
@@ -44,36 +66,88 @@
                         </ul>
                     </div><!-- /.box-body -->
                 </div>
-            </div><!-- /.col -->
-        </div>
 
-        @if (Model.ItemCount > 0)
-        {
-            <div class="row">
-                <div class="col-md-6">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>@Html.DisplayName("Name")</th>
-                                <th>@Html.DisplayName("Price")</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.Items.Items)
-                            {
-                                <tr>
-                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Price)</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                @if (Model.ItemCount > 0)
+                { 
+
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                <h3 class="box-title">Przedmioty</h3>
+                            </div>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>@Html.DisplayName("Name")</th>
+                                        <th>@Html.DisplayName("Price")</th>
+                                        <th>@Html.DisplayName("Split type")</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Items.Items)
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Price) @Html.DisplayFor(modelItem => item.Currency)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.SplitType)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+            </div><!-- /.col -->
+            
+            <div class="col-md-5">
+                @if(Model.PaymentMade != 0)
+                {
+                    @Html.Partial("_morris_box", new ViewDataDictionary(this.ViewData) { { "name", "payments" }, { "headerTitle", "Payments by user" } })
+                }
+                
             </div>
-        }
+       </div>
+        
 
 }
 else
 {
         <div class="alert alert-info">@ViewBag.ErrorMessage</div>
+}
+@section Scripts {
+    <script>
+        $(function () {
+            loadUserPayments()
+        });
+
+        function loadUserPayments() {
+            $.ajax({
+                url: '@Url.Action("loadUserPayments", "Sessions", new { id = ViewBag.id })',
+                beforeSend: () => {
+                    $("#overlay_morris_payments").show();
+                    $("#morris_payments_error").hide();
+                }
+            }).done((data) => {
+                morrisPayments(data);
+            }).always(() => {
+                $("#overlay_morris_payments").hide();
+            }).fail((error) => {
+                console.log(error);
+                $("#morris_payments_error").show();
+            });
         }
+
+        $('body').on('click', '#refresh_morris_payments', function () {
+            loadUserPayments()
+        });
+
+        function morrisPayments(data) {
+            var donut = new Morris.Donut({
+                element: 'payments-chart',
+                resize: true,
+                data: data,
+                hideHover: 'auto',
+                xkey: 'xKey',
+                ykeys: ['yKey'],
+            });
+        }
+    </script>
+}

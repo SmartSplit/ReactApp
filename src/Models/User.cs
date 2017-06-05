@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace Models
 {
-    public class User : IModel<string>
+    public class User : ClaimsPrincipal, IModel<string>, IAuthenticable
     {
         public string Id { get; set; }
 
@@ -21,6 +22,7 @@ namespace Models
         public string Email { get; set; }
         
         [DataType(DataType.Password)]
+        [JsonProperty("password")]
         public string Password { get; set; }
 
         public string ResourcePath { get; set; }

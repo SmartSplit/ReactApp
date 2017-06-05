@@ -7,9 +7,11 @@ using AutoMapper;
 using Services;
 using Models;
 using ReactApp.ViewModels.Dashboard;
+using ReactApp.Filters;
 
 namespace ReactApp.Controllers
 {
+    [ApiAuthorized]
     public class DashboardController : Controller
     {
         IRepositoryService<User> _usersService;
@@ -33,8 +35,10 @@ namespace ReactApp.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(User user)
         {
+            ViewBag.User = _usersService.GetLoggedUser();
+
             _sessionsService.GetBuilder()
                 .Filter("start_date", ">", DateTime.Today.AddDays(-30).ToString())
                 .Limit(1000);
@@ -50,6 +54,7 @@ namespace ReactApp.Controllers
             _itemsService.GetBuilder()
                 .Filter("created_at", ">", DateTime.Today.AddDays(-30).ToString())
                 .Limit(1000);
+
 
             DashboardViewModel viewModel = new DashboardViewModel();
             try

@@ -1,4 +1,7 @@
-#:C:\Users\Mateusz\Documents\PROGRAMOWANIE\ASP.NET\ReactApp\src\ReactApp\ReactApp.xproj
-C:\Users\Mateusz\Documents\PROGRAMOWANIE\ASP.NET\ReactApp\src\ReactApp\ReactApp.xproj|C:\Users\Mateusz\Documents\PROGRAMOWANIE\ASP.NET\ReactApp\src\Models\Models.xproj
-C:\Users\Mateusz\Documents\PROGRAMOWANIE\ASP.NET\ReactApp\src\ReactApp\ReactApp.xproj|C:\Users\Mateusz\Documents\PROGRAMOWANIE\ASP.NET\ReactApp\src\Services\Services.xproj
-C:\Users\Mateusz\Documents\PROGRAMOWANIE\ASP.NET\ReactApp\src\Services\Services.xproj|C:\Users\Mateusz\Documents\PROGRAMOWANIE\ASP.NET\ReactApp\src\Models\Models.xproj
+#:E:\cproject\mvc_falat\src\Models\Models.xproj
+#:E:\cproject\mvc_falat\src\Services\Services.xproj
+E:\cproject\mvc_falat\src\Services\Services.xproj|E:\cproject\mvc_falat\src\Models\Models.xproj
+#:E:\cproject\mvc_falat\src\ReactApp\ReactApp.xproj
+E:\cproject\mvc_falat\src\ReactApp\ReactApp.xproj|E:\cproject\mvc_falat\src\Models\Models.xproj
+E:\cproject\mvc_falat\src\ReactApp\ReactApp.xproj|E:\cproject\mvc_falat\src\Services\Services.xproj
+E:\cproject\mvc_falat\src\Services\Services.xproj|E:\cproject\mvc_falat\src\Models\Models.xproj
