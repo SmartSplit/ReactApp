@@ -20,8 +20,6 @@ namespace ReactApp.ViewModels.Items
 
         [JsonProperty("currency")]
         public Currency Currency { get; set; }
-
-        [JsonProperty("split_type")]
-        public SplitType SplitType { get; set; }
+        
     }
 }

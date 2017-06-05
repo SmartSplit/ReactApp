@@ -120,7 +120,8 @@ namespace ReactApp
         {
             var payments = await _paymentsService.GetAllDetails("sessions", id);
             Dictionary<User, double> paymentByUser = new Dictionary<User, double>();
-            foreach (var userId in payments.Select(p => p.UserId))
+            var users = payments.Select(p => p.UserId).Distinct().ToList();
+            foreach (var userId in users)
             {
                 var user = await _usersService.GetById(userId);
                 paymentByUser.Add(user, payments.Where(u => u.UserId == userId).Sum(p => p.Amount) / 100.0);
